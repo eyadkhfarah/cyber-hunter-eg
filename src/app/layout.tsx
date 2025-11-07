@@ -10,7 +10,35 @@ const desc = "Your path to cybersecurity";
 
 const siteUrl = process.env.NEXT_PUBLIC_DOMAIN_URL || "http://localhost:3000";
 
-const keywords = ["Cyber Hunter"];
+const keywords = [
+  "Cyber Hunter",
+  "cybersecurity",
+  "information security",
+  "infosec",
+  "ethical hacking",
+  "penetration testing",
+  "network security",
+  "security awareness",
+  "malware analysis",
+  "threat intelligence",
+  "vulnerability assessment",
+  "digital forensics",
+  "security operations",
+  "incident response",
+  "cloud security",
+  "application security",
+  "security training",
+  "red team",
+  "blue team",
+  "cyber defense",
+  "risk management",
+  "compliance",
+  "CISSP",
+  "CEH",
+  "OSCP",
+  "SOC",
+  "cybersecurity news",
+];
 
 export const viewport: Viewport = {
   themeColor: "#112754",
