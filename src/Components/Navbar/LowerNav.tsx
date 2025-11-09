@@ -13,16 +13,22 @@ export default function LowerNav() {
           height={60}
         />
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-9">
         {NavLinks.map((nav, i) => (
           <Link key={i} href={nav.link}>
             {nav.name}
           </Link>
         ))}
       </div>
-      <Link href={"/contact"} className="">
-        Get Started
-      </Link>
+      <div className="">
+
+        <Link
+          href={"/contact"}
+          className="bg-blue-600 font-bold px-5 py-3 rounded-2xl"
+        >
+          Get Started
+        </Link>
+      </div>
     </div>
   );
 }
