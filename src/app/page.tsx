@@ -4,19 +4,26 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50 text-gray-900">
 
       {/* Hero - full viewport, modern gradient, centered */}
-      <section className="h-screen flex items-center bg-linear-to-b from-[#0f172a] via-[#0b1220] to-[#071027] text-white">
-        <div className="mx-auto text-center max-w-4xl px-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+        <section className="relative h-screen flex items-center bg-linear-to-b from-[#0f172a] via-[#0b1220] to-[#071027] text-white">
+          {/* Animated background blobs (decorative) */}
+          <div className="hero-bg pointer-events-none" aria-hidden="true">
+            <div className="blob b1" />
+            <div className="blob b2" />
+            <div className="blob b3" />
+          </div>
+          
+          <div className="mx-auto text-center max-w-4xl px-6 z-10">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight hero-title">
             <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-300 via-blue-400 to-indigo-500">Cyber Hunter</span>
-            <span className="block text-xl md:text-2xl font-medium text-gray-300 mt-3">— Secure your digital world</span>
+            <span className="block text-xl md:text-2xl font-medium text-gray-300 mt-3">Your path to cybersecurity</span>
           </h1>
 
-          <p className="text-lg text-gray-300 mb-8">
+          <p className="text-lg text-gray-300 mb-8 hero-sub">
             Enterprise-grade cybersecurity: penetration testing, 24/7 detection & response, cloud hardening, and security training — tailored for your organization.
           </p>
 
-          <div className="flex items-center justify-center gap-4">
-            <a href="/contact" className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transform hover:-translate-y-0.5 transition"> 
+          <div className="flex items-center justify-center gap-4 hero-ctas">
+            <a href="/contact" className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transform hover:-translate-y-0.5 transition hero-cta-pulse"> 
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.314-2.686 6-6 6v-6a6 6 0 0112 0v6c-3.314 0-6-2.686-6-6z" />
               </svg>
