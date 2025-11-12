@@ -31,9 +31,9 @@ export default function LowerNav() {
           : "bg-transparent text-white")
       }
     >
-      <div>
+      <Link href={"/"} aria-label="Cyber Hunter">
         <Image src={'/Logo White.svg'} alt="Cyber Hunter Logo" width={60} height={60} />
-      </div>
+      </Link>
 
       <div className="flex items-center space-x-9">
         {NavLinks.map((nav, i) => (
@@ -44,7 +44,7 @@ export default function LowerNav() {
       </div>
 
       <div>
-        <Link href={'/contact'} className="bg-blue-600 font-bold px-5 py-3 rounded-2xl">
+        <Link href={'/contact'} className="btnPrimary">
           Get Started
         </Link>
       </div>

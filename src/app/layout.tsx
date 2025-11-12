@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import Script from "next/script";
 import { CyberhunterOrganization } from "@/lib/Schemas/CHJsonLd";
 import { generateBreadcrumbSchema, webpageSchema, websiteSchema } from "@/lib/Schemas";
+import Footer from "@/Components/Footer";
 
 const title = "%s | Cyber Hunter";
 const desc = "Your path to cybersecurity";
@@ -159,6 +160,7 @@ export default function RootLayout({
       <body className={""}>
         <Navbar />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

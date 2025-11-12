@@ -18,7 +18,7 @@
 @theme {
   --font-bold: "bold";
   --font-regular: "regular";
-  --color-dark: #292929;
+  --color-dark: #071027;
   --color-light: #ede5de;
   --color-primary: #112754;
   --color-red: #cc0000;
@@ -45,15 +45,15 @@
   font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
-body {
-  
+@layer components {
+  .btnPrimary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 cursor-pointer font-bold px-5 py-3 rounded-2xl hover:scale-[1.01] transition;
+  }
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 cursor-pointer font-bold px-5 py-3 rounded-2xl hover:scale-[1.01] transition;
+  }
+
 }
 
 /* Hero animations */
@@ -99,10 +99,11 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 15;
   overflow: hidden;
 }
 .hero-bg .blob {
+  z-index: 5;
   position: absolute;
   border-radius: 9999px;
   filter: blur(80px);
