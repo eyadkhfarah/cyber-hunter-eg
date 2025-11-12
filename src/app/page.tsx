@@ -1,3 +1,4 @@
+import AnimatedNum from "@/Components/Client/AnimatedNum";
 import { BentoGridCards } from "@/Components/Client/BentoGridCard";
 import { EncryptedText } from "@/Components/ui/encrypted-text";
 import Link from "next/link";
@@ -12,21 +13,21 @@ const risk = [
   },
   {
     title: "Automation is Missing Ris",
-    numbers: "20",
+    numbers: 20,
     nextNumber: "x",
     description:
       "Human-led, manual penetration tests discover 20× more critical vulnerabilities than automation alone. Redline’s hacker‑driven assessments reveal issues automation consistently overlooks.",
   },
   {
     title: "Breach Prevention",
-    numbers: "72",
+    numbers: 72,
     nextNumber: "%",
     description:
       "Fortra’s 2024 survey shows 72 % of security leaders credit penetration testing with averting breaches. Redline replicates adversaries, validating controls and guiding fixes that transform preventative intent into measurable risk reduction.",
   },
   {
     title: "AI Adoption Concerns",
-    numbers: "48",
+    numbers: 48,
     nextNumber: "%",
     description:
       "Nearly 48 % of executives cite security and privacy risks as a major barrier to adopting AI solutions. Leaders worry that sensitive data used in training or inference could be exposed, and that AI systems might introduce compliance gaps, bias, or uncontrolled decision-making. Without independent validation, organizations hesitate to fully embrace AI despite the efficiency and innovation it offers",
@@ -71,20 +72,6 @@ export default function Home() {
               href={"/contact"}
               className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transform hover:-translate-y-0.5 transition hero-cta-pulse"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 11c0 3.314-2.686 6-6 6v-6a6 6 0 0112 0v6c-3.314 0-6-2.686-6-6z"
-                />
-              </svg>
               Get Started
             </Link>
 
@@ -133,10 +120,10 @@ export default function Home() {
               return (
                 <div
                   key={i}
-                  className="border border-blue-900 h-full rounded-2xl p-7 md:flex grid gap-4"
+                  className="border border-blue-900 h-full rounded-2xl p-7 md:flex grid gap-6"
                 >
                   <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-300 via-blue-400 to-indigo-500 text-5xl font-bold mb-3">
-                    {item.numbers}
+                    <AnimatedNum from={0} to={item.numbers} />
                     {item.nextNumber}
                   </span>
                   <div className="">

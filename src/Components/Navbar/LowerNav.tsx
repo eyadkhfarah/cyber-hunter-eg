@@ -25,7 +25,7 @@ export default function LowerNav() {
   return (
     <nav
       className={
-        `${isHome ? "fixed left-0 right-0" : "sticky"} z-40 top-0 flex w-full justify-between items-center p-6 transition-colors duration-300 ` +
+        `${isHome ? "fixed left-0 right-0" : "sticky"} z-40 top-0 flex w-full justify-between items-center py-6 px-24 rounded-b-4xl transition-colors duration-300 ` +
         (showBg
           ? "bg-[#0b1220]/95 text-white shadow-md backdrop-blur"
           : "bg-transparent text-white")
@@ -35,7 +35,7 @@ export default function LowerNav() {
         <Image src={'/Logo White.svg'} alt="Cyber Hunter Logo" width={60} height={60} />
       </Link>
 
-      <div className="flex items-center space-x-9">
+      <div className="md:flex hidden items-center space-x-9">
         {NavLinks.map((nav, i) => (
           <Link key={i} href={nav.link} className="hover:text-blue-600 transition-all duration-300">
             {nav.name}
