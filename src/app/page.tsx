@@ -107,7 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 px-24 bg-dark">
+      <section id="services" className="py-16 px-6 md:px-24 bg-dark">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
@@ -141,7 +141,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 px-24 rounded-b-4xl bg-dark">
+      <section id="services" className="py-16 md:px-24 px-6 rounded-b-4xl bg-dark">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
@@ -158,7 +158,7 @@ export default function Home() {
       </section>
 
       {/* Stats strip */}
-      <section className="bg-linear-to-r from-white to-gray-50 py-16 px-24">
+      <section className="bg-linear-to-r from-white to-gray-50 py-16 px-6 md:px-24">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold">Who are Cyber Hunter?</h2>
@@ -184,7 +184,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16">
+      <section className="py-16 px-6 md:px-24">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-6 text-center text-black">
             Trusted by organizations
