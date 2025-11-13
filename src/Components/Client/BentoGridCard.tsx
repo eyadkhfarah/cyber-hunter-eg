@@ -10,28 +10,28 @@ export function BentoGridCards() {
       <GridItem
         area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
         icon={<RiFingerprintLine className="h-7 w-7" />}
-        title="DF & IR"
-        description="Running out of copy so I'll write anything."
+  title="DF & IR"
+  description="Rapid incident response and digital forensics to contain breaches, preserve evidence, identify root cause, and deliver practical remediation playbooks."
         />
 
       <GridItem
         icon={<RiShieldKeyholeLine className="h-7 w-7" />}
         area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
         title="Threat Hunting"
-        description="Yes, it's true. I'm not even kidding. Ask my mom if you don't believe me."
+        description="Proactive threat hunting to discover hidden adversaries, investigate indicators of compromise, and tune detections to your environment."
       />
 
       <GridItem
         area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
         icon={<GrShieldSecurity className="h-7 w-7" />}
         title="SOC as a Service"
-        description="It's the best money you'll ever spend"
+        description="24/7 managed security operations with expert triage, tailored detections, and automated response to reduce dwell time and operational risk."
       />
       <GridItem
         area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/3/13]"
         icon={<TbFishHook className="h-7 w-7" />}
         title="Phishing Campaign Simulation"
-        description="It's the best money you'll ever spend"
+        description="Realistic phishing simulations and targeted awareness training that measure employee risk and provide actionable remediation to strengthen human defenses."
       />
     </ul>
   );
