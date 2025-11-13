@@ -12,7 +12,7 @@ const risk = [
       "60% of data breaches come from unpatched known vulnerabilities. Without regular penetration testing to uncover critical flaws, organizations risk noncompliance and costly breaches even if policies exist.",
   },
   {
-    title: "Automation is Missing Ris",
+    title: "Automation is Missing Risk",
     numbers: 20,
     nextNumber: "x",
     description:
@@ -61,13 +61,13 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-lg text-gray-300 mb-8 hero-sub">
+          <p className="text-lg text-gray-300 mb-8">
             Enterprise-grade cybersecurity: penetration testing, 24/7 detection
             & response, cloud hardening, and security training — tailored for
             your organization.
           </p>
 
-          <div className="flex items-center justify-center gap-4 hero-ctas">
+          <div className="flex items-center justify-center gap-4">
             <Link
               href={"/contact"}
               className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transform hover:-translate-y-0.5 transition hero-cta-pulse"
@@ -223,7 +223,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact form */}
+      {/* Contact form
       <section className="bg-white py-16">
         <div className="container mx-auto px-6 max-w-3xl">
           <h2 className="text-3xl font-bold mb-4 text-center text-black">
@@ -269,7 +269,7 @@ export default function Home() {
             </div>
           </form>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

@@ -1,4 +1,8 @@
+import { SocialLink } from "../SocialLinks";
+
 const siteUrl = process.env.NEXT_PUBLIC_DOMAIN_URL || "http://localhost:3000";
+
+const social = SocialLink
 
 export const CyberhunterOrganization = {
   "@context": "https://schema.org",
@@ -13,11 +17,11 @@ export const CyberhunterOrganization = {
     "caption": "Cyber Hunter"
   },
   "sameAs": [
-    "https://www.facebook.com/Cyber.Hunter.Group",
-    "https://www.instagram.com/cyberhuntergp",
-    "https://www.linkedin.com/company/cyper-hunter-group",
-    "https://www.twitter.com/CyberHunter_Gp",
-    "https://www.tiktok.com/@cyber.hunter.gp"
+    social.facebook,
+    social.instagram,
+    social.linkedin,
+    social.twitter,
+    social.tiktok,
   ],
   "address": {
     "@type": "PostalAddress",

@@ -18,6 +18,8 @@
 @theme {
   --font-bold: "bold";
   --font-regular: "regular";
+  --font-logoBold: "logoBold";
+  --font-logoRegular: "logoRegular";
   --color-dark: #071027;
   --color-light: #ede5de;
   --color-primary: #112754;
@@ -39,21 +41,33 @@
 
 @font-face {
   font-family: "regular";
-  src: url("../../public/Fonts/AVENIRARABIC-MEDIUM.woff2") format("woff2");
+  src: url("../../public/Fonts/AVENIRARABIC-LIGHT.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
   font-style: normal;
 }
 
+@font-face {
+  font-family: "logoBold";
+  src: url("../../public/Fonts/ClabTrial-Black.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
 
-@layer components {
-  .btnPrimary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 cursor-pointer font-bold px-5 py-3 rounded-2xl hover:scale-[1.01] transition;
-  }
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 cursor-pointer font-bold px-5 py-3 rounded-2xl hover:scale-[1.01] transition;
-  }
+@font-face {
+  font-family: "logoRegular";
+  src: url("../../public/Fonts/ClabTrial-Regular.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 /* Hero animations */
@@ -95,15 +109,20 @@
   }
 }
 
+@layer base {
+  .btnPrimary {
+    @apply text-white font-bold py-3 px-6 rounded-2xl shadow-lg bg-blue-500 transition-colors duration-300;
+  }
+}
+
 /* Animated background blobs for hero */
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 15;
+  z-index: 0;
   overflow: hidden;
 }
 .hero-bg .blob {
-  z-index: 5;
   position: absolute;
   border-radius: 9999px;
   filter: blur(80px);
