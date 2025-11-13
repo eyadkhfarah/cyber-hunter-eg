@@ -60,13 +60,13 @@ export default function Email(): React.ReactElement {
                         })}
                         aria-invalid={errors.name ? "true" : "false"}
                         type="text"
-                        className={`w-full rounded-lg p-3 bg-slate-800/50 border ${errors.name ? 'border-red-500' : 'border-white/6'} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
+                        className={`w-full rounded-lg p-3 border ${errors.name ? 'border-red-500' : ''} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
                     />
                     {errors.name && <p className="mt-1 text-sm text-red-400">{errors.name.message}</p>}
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">Email</label>
+                    <label htmlFor="email" className="block text-sm mb-2">Email</label>
                     <input
                         id="email"
                         {...register("email", {
@@ -78,7 +78,7 @@ export default function Email(): React.ReactElement {
                         })}
                         aria-invalid={errors.email ? "true" : "false"}
                         type="email"
-                        className={`w-full rounded-lg p-3 bg-slate-800/50 border ${errors.email ? 'border-red-500' : 'border-white/6'} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
+                        className={`w-full rounded-lg p-3 border ${errors.email ? 'border-red-500' : ''} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
                     />
                     {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>}
                 </div>
@@ -86,7 +86,7 @@ export default function Email(): React.ReactElement {
 
             {/* Subject */}
             <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-slate-200 mb-2">Subject</label>
+                <label htmlFor="subject" className="block text-sm mb-2">Subject</label>
                 <input
                     id="subject"
                     {...register("subject", {
@@ -95,14 +95,14 @@ export default function Email(): React.ReactElement {
                     })}
                     aria-invalid={errors.subject ? "true" : "false"}
                     type="text"
-                    className={`w-full rounded-lg p-3 bg-slate-800/50 border ${errors.subject ? 'border-red-500' : 'border-white/6'} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
+                    className={`w-full rounded-lg p-3 border ${errors.subject ? 'border-red-500' : ''} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
                 />
                 {errors.subject && <p className="mt-1 text-sm text-red-400">{errors.subject.message}</p>}
             </div>
 
             {/* Message */}
             <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-200 mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm mb-2">Message</label>
                 <textarea
                     id="message"
                     {...register("message", {
@@ -112,7 +112,7 @@ export default function Email(): React.ReactElement {
                     })}
                     aria-invalid={errors.message ? "true" : "false"}
                     rows={6}
-                    className={`w-full rounded-lg p-3 bg-slate-800/50 border ${errors.message ? 'border-red-500' : 'border-white/6'} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
+                    className={`w-full rounded-lg p-3 border-2 ${errors.message ? 'border-red-500' : ''} text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
                 />
                 {errors.message && <p className="mt-1 text-sm text-red-400">{errors.message.message}</p>}
             </div>

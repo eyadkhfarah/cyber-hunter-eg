@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { NavLinks } from "@/lib/NavList";
 import Image from "next/image";
 import Link from "next/link";
+import MobileNav from "./MobileNav";
 
 export default function LowerNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,7 +26,7 @@ export default function LowerNav() {
   return (
     <nav
       className={
-        `${isHome ? "fixed left-0 right-0" : "sticky"} z-40 top-0 flex w-full justify-between items-center py-6 px-24 rounded-b-4xl transition-colors duration-300 ` +
+        `${isHome ? "fixed left-0 right-0" : "sticky"} z-40 top-0 flex w-full justify-between items-center py-6 md:px-24 px-6 rounded-b-4xl transition-colors duration-300 ` +
         (showBg
           ? "bg-[#0b1220]/95 text-white shadow-md backdrop-blur"
           : "bg-transparent text-white")
@@ -43,10 +44,12 @@ export default function LowerNav() {
         ))}
       </div>
 
-      <div>
-        <Link href={'/contact'} className="btnPrimary">
+      <div className="flex items-center gap-5">
+        <Link href={'/contact'} className="btnPrimary hidden md:inline-flex">
           Get Started
         </Link>
+
+        <MobileNav />
       </div>
     </nav>
   );

@@ -1,11 +1,21 @@
-import React from "react";
 import Email from "./Email";
-import { FiMail, FiPhone } from "react-icons/fi";
-import { FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
+import { SocialLink } from "@/lib/SocialLinks";
+import {
+  RiFacebookFill,
+  RiInstagramLine,
+  RiLinkedinFill,
+  RiMailLine,
+  RiPhoneLine,
+  RiTiktokFill,
+  RiTwitterXLine,
+} from "react-icons/ri";
+import Link from "next/link";
 
 export default function ContactPage() {
+  const social = SocialLink;
+
   return (
-    <main className="container mx-auto px-6 py-16">
+    <main className="container mx-auto md:px-24 px-6 py-16">
       <header className="max-w-3xl mx-auto text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Contact Us</h1>
         <p className="text-lg text-slate-600">
@@ -15,39 +25,75 @@ export default function ContactPage() {
         </p>
       </header>
 
-      <section className="grid gap-8 md:grid-cols-2 items-center">
+      <section className="grid gap-8 md:grid-cols-2 w-full">
         <div className="bg-white/5 p-6 rounded-2xl border border-white/6">
-          <h2 className="text-2xl font-semibold mb-4">Send us a message</h2>
+          <h2 className="text-3xl font-bold mb-4">Send us a message</h2>
           <Email />
         </div>
 
-        <aside className="p-6 rounded-2xl border border-white/6 bg-white/3">
-          <h3 className="text-xl font-semibold mb-3">Other ways to reach us</h3>
+        <aside className="p-6 rounded-2xl bg-dark">
+          <h3 className="text-2xl text-white font-bold mb-3">
+            Other ways to reach us
+          </h3>
 
           <div className="space-y-4 text-slate-700">
             <div className="flex items-center gap-3">
-              <FiMail className="h-5 w-5 text-cyan-500" />
-              <a href="mailto:hello@cyber-hunter.com" className="font-medium text-slate-900">hello@cyber-hunter.com</a>
+              <RiMailLine className="h-5 w-5 text-blue-500" />
+              <Link href={`mailto:${social.email}`} className="text-gray-400">
+                {social.email}
+              </Link>
             </div>
 
             <div className="flex items-center gap-3">
-              <FiPhone className="h-5 w-5 text-cyan-500" />
-              <span className="text-slate-700">+1 (555) 123-4567</span>
+              <RiPhoneLine className="h-5 w-5 text-blue-500" />
+              <span className="text-gray-400">{social.phone}</span>
             </div>
           </div>
 
           <div className="mt-6">
-            <h4 className="text-sm font-medium mb-3">Follow us</h4>
+            <h4 className="font-bold text-xl text-white mb-3">
+              Message us via:
+            </h4>
             <div className="flex items-center gap-4">
-              <a aria-label="LinkedIn" href="#" className="text-slate-800 hover:text-cyan-500">
-                <FaLinkedin className="h-6 w-6" />
-              </a>
-              <a aria-label="Twitter" href="#" className="text-slate-800 hover:text-cyan-500">
-                <FaTwitter className="h-6 w-6" />
-              </a>
-              <a aria-label="GitHub" href="#" className="text-slate-800 hover:text-cyan-500">
-                <FaGithub className="h-6 w-6" />
-              </a>
+              {[
+                {
+                  href: SocialLink.facebook,
+                  icon: RiFacebookFill,
+
+                  text: "فيسبوك",
+                },
+                {
+                  href: social.instagram,
+                  icon: RiInstagramLine,
+                  text: "إنستاجرام",
+                },
+                {
+                  href: social.twitter,
+                  icon: RiTwitterXLine,
+                  text: "تويتر (X)",
+                },
+                {
+                  href: social.linkedin,
+                  icon: RiLinkedinFill,
+                  text: "تويتر (X)",
+                },
+                {
+                  href: social.tiktok,
+                  icon: RiTiktokFill,
+                  text: "تويتر (X)",
+                },
+              ].map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  target="_blank"
+                  className="font-black group pb-2 flex justify-between items-center transition-all ease-in-out duration-300"
+                >
+                  <span className="p-2 text-2xl text-white rounded-full bg-blue-950 group-hover:bg-blue-500 transition-colors duration-500">
+                    <item.icon />
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
         </aside>
