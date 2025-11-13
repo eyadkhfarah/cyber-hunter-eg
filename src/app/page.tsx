@@ -107,7 +107,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 px-6 md:px-24 bg-dark">
+      <section id="services" className="py-16 px-4 md:px-24 bg-dark">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
@@ -141,13 +141,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 md:px-24 px-6 rounded-b-4xl bg-dark">
+      <section id="services" className="py-16 md:px-24 px-4 rounded-b-4xl bg-dark">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
               Secure Your Company
             </h2>
-            <p className="text-gray-400 w-2xl ">
+            <p className="text-gray-400 md:w-2xl ">
               With our uniquely experienced team, we offer a wide range of
               Cybersecurity services. Following is an example, but feel free to
               get in touch for the full services catalog.
@@ -158,11 +158,11 @@ export default function Home() {
       </section>
 
       {/* Stats strip */}
-      <section className="bg-linear-to-r from-white to-gray-50 py-16 px-6 md:px-24">
+      <section className="bg-linear-to-r from-white to-gray-50 py-16 px-4 md:px-24">
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold">Who are Cyber Hunter?</h2>
-            <p className="text-gray-400 w-2xl "></p>
+            <p className="text-gray-400 md:w-2xl"></p>
           </div>
         </div>
         {/* <div className="container mx-auto px-6">
@@ -184,7 +184,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 px-6 md:px-24">
+      <section className="py-16 px-4 md:px-24">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-6 text-center text-black">
             Trusted by organizations
