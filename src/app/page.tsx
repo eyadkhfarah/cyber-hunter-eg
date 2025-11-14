@@ -352,7 +352,7 @@ export default function Home() {
       {/* --- End New Section --- */}
       
       {/* --- FAQ Accordion (Modernized) --- */}
-      <section className="bg-gray-50 m-0 max-w-full px-4 py-16 md:px-24">
+      <section className="bg-linear-to-b to-gray-50 from-white m-0 max-w-full px-4 py-16 md:px-24">
         <div className="container mx-auto px-6 max-w-4xl">
           <h2 className="text-4xl md:text-5xl font-bold mb-10 text-center text-black">
             Frequently Asked Questions
