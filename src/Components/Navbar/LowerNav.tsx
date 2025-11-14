@@ -61,39 +61,44 @@ export default function LowerNav() {
         className={
           `${
             isHome ? "fixed left-0 right-0" : "sticky"
-          } z-40 top-0 flex w-full justify-between items-center py-6 md:px-24 px-6 rounded-b-4xl transition-colors duration-300 ` +
+          } z-40 top-0 w-full py-6 md:px-24 px-6 rounded-b-4xl transition-colors duration-300 ` +
           (showBg
             ? "bg-[#0b1220]/95 text-white shadow-md backdrop-blur"
             : "bg-transparent text-white")
         }
       >
-        <Link href={"/"} aria-label="Cyber Hunter">
-          <Image
-            src={"/Logo White.svg"}
-            alt="Cyber Hunter Logo"
-            width={60}
-            height={60}
-          />
-        </Link>
-
-        <div className="md:flex hidden items-center space-x-9">
-          {NavLinks.map((nav, i) => (
-            <Link
-              key={i}
-              href={nav.link}
-              className="hover:text-blue-600 font-bold transition-all duration-300"
-            >
-              {nav.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-5">
-          <Link href={"/contact"} className="btnPrimary hidden md:inline-flex">
-            Get Started
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <Link href={"/"} aria-label="Cyber Hunter">
+            <Image
+              src={"/Logo White.svg"}
+              alt="Cyber Hunter Logo"
+              width={60}
+              height={60}
+            />
           </Link>
 
-          <HamburgerMenu open={isOpen} setOpen={setIsOpen} />
+          <div className="md:flex hidden items-center space-x-9">
+            {NavLinks.map((nav, i) => (
+              <Link
+                key={i}
+                href={nav.link}
+                className="hover:text-blue-600 font-bold transition-all duration-300"
+              >
+                {nav.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-5">
+            <Link
+              href={"/contact"}
+              className="btnPrimary hidden md:inline-flex"
+            >
+              Get Started
+            </Link>
+
+            <HamburgerMenu open={isOpen} setOpen={setIsOpen} />
+          </div>
         </div>
       </nav>
 
