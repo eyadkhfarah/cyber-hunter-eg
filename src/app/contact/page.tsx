@@ -1,15 +1,16 @@
 import Email from "./Email";
 import { SocialLink } from "@/lib/SocialLinks";
-import {
-  RiFacebookFill,
-  RiInstagramLine,
-  RiLinkedinFill,
-  RiMailLine,
-  RiPhoneLine,
-  RiTiktokFill,
-  RiTwitterXLine,
-} from "react-icons/ri";
+import { RiMailLine, RiPhoneLine } from "react-icons/ri";
 import Link from "next/link";
+import { Metadata } from "next";
+import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
+import SocialLinks from "@/Components/SocialLinks";
+
+export const metadata: Metadata = generateStaticMetadata({
+  title: "Contact",
+  description: `CyberHunter is a leading company specializing in information security. We are dedicated to delivering comprehensive reports on cyber- attacks, with a particular focus on the Mena region. Our team of expert information security reporters provides up-to-date insights and analyses to keep our clients informed.`,
+  url: "/contact",
+});
 
 export default function ContactPage() {
   const social = SocialLink;
@@ -26,7 +27,7 @@ export default function ContactPage() {
       </header>
 
       <section className="grid gap-8 md:grid-cols-2 w-full">
-        <div className="bg-white/5 p-6 rounded-2xl border border-white/6">
+        <div className="bg-white/5 pt-6 rounded-2xl border border-white/6">
           <h2 className="text-3xl font-bold mb-4">Send us a message</h2>
           <Email />
         </div>
@@ -36,65 +37,33 @@ export default function ContactPage() {
             Other ways to reach us
           </h3>
 
-          <div className="space-y-4 text-slate-700">
-            <div className="flex items-center gap-3">
-              <RiMailLine className="h-5 w-5 text-blue-500" />
-              <Link href={`mailto:${social.email}`} className="text-gray-400">
-                {social.email}
-              </Link>
-            </div>
+          <div className="space-y-4">
+            <Link
+              href={`mailto:${social.email}`}
+              className="flex text-white items-center gap-3 bg-blue-950 hover:bg-blue-900 transition-colors duration-300 ease-in-out p-5 rounded-3xl"
+            >
+              <span className="text-2xl bg-blue-500 text-white rounded-full p-2">
+                <RiMailLine />
+              </span>
+              {social.email}
+            </Link>
 
-            <div className="flex items-center gap-3">
-              <RiPhoneLine className="h-5 w-5 text-blue-500" />
-              <span className="text-gray-400">{social.phone}</span>
-            </div>
+            <Link
+              href={`tel:${social.phone}`}
+              className="flex text-white items-center gap-3 bg-blue-950 hover:bg-blue-900 transition-colors duration-300 ease-in-out p-5 rounded-3xl"
+            >
+              <span className="text-2xl bg-blue-500 text-white rounded-full p-2">
+                <RiPhoneLine />
+              </span>
+              {social.phone}
+            </Link>
           </div>
 
           <div className="mt-6">
             <h4 className="font-bold text-xl text-white mb-3">
               Message us via:
             </h4>
-            <div className="flex items-center gap-4">
-              {[
-                {
-                  href: SocialLink.facebook,
-                  icon: RiFacebookFill,
-
-                  text: "Facebook",
-                },
-                {
-                  href: social.instagram,
-                  icon: RiInstagramLine,
-                  text: "Instagram",
-                },
-                {
-                  href: social.twitter,
-                  icon: RiTwitterXLine,
-                  text: "X",
-                },
-                {
-                  href: social.linkedin,
-                  icon: RiLinkedinFill,
-                  text: "LinkedIn",
-                },
-                {
-                  href: social.tiktok,
-                  icon: RiTiktokFill,
-                  text: "Tiktok",
-                },
-              ].map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.href}
-                  target="_blank"
-                  className="font-black group pb-2 flex justify-between items-center transition-all ease-in-out duration-300"
-                >
-                  <span className="p-2 text-2xl text-white rounded-full bg-blue-950 group-hover:bg-blue-500 transition-colors duration-500">
-                    <item.icon />
-                  </span>
-                </Link>
-              ))}
-            </div>
+            <SocialLinks />
           </div>
         </aside>
       </section>

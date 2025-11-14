@@ -36,7 +36,7 @@ export default function Email() {
 
   return (
     <form
-      className="mx-auto max-w-xl space-y-4"
+      className="space-y-4"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
@@ -46,7 +46,7 @@ export default function Email() {
             {...register("company", { required: "Company name is required" })}
             aria-label="Company name"
             placeholder="Company name"
-            className={`w-full p-3 rounded-lg border border-dark ${errors.company ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.company ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
           {errors.company && (
             <p className="mt-1 text-sm text-red-400">{errors.company.message}</p>
@@ -61,7 +61,7 @@ export default function Email() {
             })}
             aria-label="Contact email"
             placeholder="Email"
-            className={`w-full p-3 rounded-lg border border-dark ${errors.email ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.email ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
@@ -75,7 +75,7 @@ export default function Email() {
           aria-label="Brief message"
           placeholder="Short message about your interest"
           rows={4}
-          className={`w-full p-3 rounded-lg border border-dark ${errors.message ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.message ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         {errors.message && (
           <p className="mt-1 text-sm text-red-400">{errors.message.message}</p>
@@ -87,7 +87,7 @@ export default function Email() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-block bg-linear-to-r from-blue-500 to-cyan-400 text-white font-semibold px-6 py-3 rounded-2xl shadow hover:scale-[1.01] transition disabled:opacity-60"
+            className="btnPrimary"
           >
             {isSubmitting ? "Sending…" : "Express interest"}
           </button>

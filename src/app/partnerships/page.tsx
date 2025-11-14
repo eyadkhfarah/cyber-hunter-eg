@@ -1,11 +1,19 @@
 import React from "react";
 import Email from "./Email";
+import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
+import { Metadata } from "next";
+
+export const metadata: Metadata = generateStaticMetadata({
+  title: "Partnerships",
+  description: `CyberHunter is a leading company specializing in information security. We are dedicated to delivering comprehensive reports on cyber- attacks, with a particular focus on the Mena region. Our team of expert information security reporters provides up-to-date insights and analyses to keep our clients informed.`,
+  url: "/partnerships",
+});
 
 export default function page() {
   return (
     <main className="container mx-auto px-4 md:px-24 py-16">
       <header className="text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-3">
+        <h1 className="text-4xl md:text-5xl font-bold mb-3">
           Partnerships
         </h1>
         <p className="text-lg text-slate-700 mb-6">
@@ -34,7 +42,7 @@ export default function page() {
             <li className="flex items-start gap-3">
               <span className="text-cyan-400 font-bold">•</span>
               <span>
-                Technical enablement: training, runbooks and integration support
+                Technical enablement: training, run books and integration support
                 so your team can sell and deliver confidently.
               </span>
             </li>
@@ -72,7 +80,7 @@ export default function page() {
         <h3 className="text-2xl font-bold mb-4">
           Interested in partnering?
         </h3>
-        <p className="text-slate-300 mb-6">
+        <p className="text-slate-500 mb-6">
           We are accepting expressions of interest now — formal partnership
           program launches soon.
         </p>

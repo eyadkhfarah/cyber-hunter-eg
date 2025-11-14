@@ -1,8 +1,9 @@
 "use client";
-import { RiFingerprintLine, RiShieldKeyholeLine } from "react-icons/ri";
+import { RiFingerprintLine } from "react-icons/ri";
 import { TbFishHook } from "react-icons/tb";
 import { GlowingEffect } from "@/Components/ui/glowing-effect";
 import { GrShieldSecurity } from "react-icons/gr";
+import { HatGlasses } from 'lucide-react';
 
 export function BentoGridCards() {
   return (
@@ -10,12 +11,12 @@ export function BentoGridCards() {
       <GridItem
         area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
         icon={<RiFingerprintLine className="h-7 w-7" />}
-  title="DF & IR"
-  description="Rapid incident response and digital forensics to contain breaches, preserve evidence, identify root cause, and deliver practical remediation playbooks."
-        />
+        title="DF & IR"
+        description="Rapid incident response and digital forensics to contain breaches, preserve evidence, identify root cause, and deliver practical remediation playbooks."
+      />
 
       <GridItem
-        icon={<RiShieldKeyholeLine className="h-7 w-7" />}
+        icon={<HatGlasses className="h-7 w-7" />}
         area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
         title="Threat Hunting"
         description="Proactive threat hunting to discover hidden adversaries, investigate indicators of compromise, and tune detections to your environment."
@@ -63,10 +64,10 @@ const GridItem = ({ area, icon, title, description }: GridItemProps) => {
               <span className="text-3xl">{icon}</span>
             </div>
             <div className="space-y-3">
-              <h3 className="-tracking-4 pt-0.5 font-bold text-xl/[1.375rem] font-semibold text-balance text-black md:text-2xl/[1.875rem] dark:text-white">
+              <h3 className="-tracking-4 pt-0.5 text-xl/[1.375rem] font-bold text-balance md:text-2xl/[1.875rem] text-white">
                 {title}
               </h3>
-              <p className="text-sm/[1.125rem] md:text-base/[1.375rem] text-white [&_b]:md:font-semibold [&_strong]:md:font-semibold">
+              <p className="text-sm/[1.125rem] md:text-base/[1.375rem] text-white [&_b]:md:font-bold [&_strong]:md:font-bold">
                 {description}
               </p>
             </div>

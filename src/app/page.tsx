@@ -1,7 +1,11 @@
 import AnimatedNum from "@/Components/Client/AnimatedNum";
 import { BentoGridCards } from "@/Components/Client/BentoGridCard";
 import { EncryptedText } from "@/Components/ui/encrypted-text";
+import Image from "next/image";
 import Link from "next/link";
+import TestimonialCards from "@/Components/Client/testimonialCards";
+import FQACards from "@/Components/Client/FQACards";
+import StepByStep from "@/Components/ui/StepByStep";
 
 const risk = [
   {
@@ -16,14 +20,14 @@ const risk = [
     numbers: 20,
     nextNumber: "x",
     description:
-      "Human-led, manual penetration tests discover 20× more critical vulnerabilities than automation alone. Redline’s hacker‑driven assessments reveal issues automation consistently overlooks.",
+      "Human-led, manual penetration tests discover 20x more critical vulnerabilities than automation alone. Redline’s hacker‑driven assessments reveal issues automation consistently overlooks.",
   },
   {
     title: "Breach Prevention",
     numbers: 72,
     nextNumber: "%",
     description:
-      "Fortra’s 2024 survey shows 72 % of security leaders credit penetration testing with averting breaches. Redline replicates adversaries, validating controls and guiding fixes that transform preventative intent into measurable risk reduction.",
+      "Fortra’s 2024 survey shows 72% of security leaders credit penetration testing with averting breaches. Redline replicates adversaries, validating controls and guiding fixes that transform preventative intent into measurable risk reduction.",
   },
   {
     title: "AI Adoption Concerns",
@@ -36,30 +40,30 @@ const risk = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-900">
+    <main className="md:min-h-screen bg-gray-50">
       {/* Hero - full viewport, modern gradient, centered */}
-      <section className="relative h-screen flex items-center bg-linear-to-b from-[#0f172a] via-[#0b1220] to-dark text-white">
+      <section className="relative m-0 mt-0 mx-0 py-20 max-w-full h-screen flex items-center bg-linear-to-b from-[#0f172a] via-[#0b1220] to-dark text-white">
         {/* Animated background blobs (decorative) */}
-        <div className="hero-bg pointer-events-none" aria-hidden="true">
-          <div className="blob b1 z-20" />
-          <div className="blob b2 z-20" />
-          <div className="blob b3 z-20" />
+        <div className="hero-bg pointer-events-none z-0" aria-hidden="true">
+          <div className="blob b1" />
+          <div className="blob b2" />
+          <div className="blob b3" />
         </div>
 
         <div className="mx-auto text-center max-w-4xl px-6 md:pt-0 pt-26 z-10">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight hero-title text-black">
+          <h1 className="text-5xl md:text-7xl font-logoBold mb-4 leading-tight hero-title text-black">
             <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-300 via-blue-400 to-indigo-500">
-              Cyber Hunter
-            </span>
-            <span className="block text-xl md:text-2xl font-medium mt-3">
-              <EncryptedText
-                text="Your path to cybersecurity"
-                encryptedClassName="text-gray-300"
-                revealedClassName="dark:text-white text-black"
-                revealDelayMs={50}
-              />
+              Cyber<span className="font-logoRegular">Hunter</span>
             </span>
           </h1>
+          <span className="block font-bold mb-6 text-xl md:text-2xl font-medium">
+            <EncryptedText
+              text="Your path to cybersecurity"
+              encryptedClassName="text-gray-300"
+              revealedClassName="text-white"
+              revealDelayMs={50}
+            />
+          </span>
 
           <p className="text-lg text-gray-300 mb-8">
             Enterprise-grade cybersecurity: penetration testing, 24/7 detection
@@ -70,15 +74,12 @@ export default function Home() {
           <div className="flex items-center justify-center gap-4">
             <Link
               href={"/contact"}
-              className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transform hover:-translate-y-0.5 transition hero-cta-pulse"
+              className="from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 btnPrimary hero-cta-pulse"
             >
               Get Started
             </Link>
 
-            <Link
-              href={"/services"}
-              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 transition"
-            >
+            <Link href={"/services"} className="btnSecondary">
               Our Services
             </Link>
           </div>
@@ -107,7 +108,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 px-24 bg-dark">
+      {/* --- New Component: Logo Cloud --- */}
+      {/* <section className="bg-dark m-0 max-w-full py-12">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <h3 className="text-center text-sm font-bold text-white uppercase tracking-wider mb-8">
+            Trusted by leading organizations
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center">
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              LogoOne
+            </div>
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              TechCorp
+            </div>
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              FinBank
+            </div>
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              HealthCo
+            </div>
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              eComm Inc.
+            </div>
+            <div className="text-center text-gray-400 font-mono text-xl filter grayscale hover:grayscale-0 transition duration-300 opacity-60 hover:opacity-100">
+              StartUp
+            </div>
+          </div>
+        </div>
+      </section> */}
+      {/* --- End New Component --- */}
+
+      <section
+        id="services"
+        className="relative m-0 max-w-full px-4 py-16 md:px-24 bg-dark overflow-hidden"
+      >
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
@@ -130,7 +164,7 @@ export default function Home() {
                     <h3 className="text-white text-2xl font-bold">
                       {item.title}
                     </h3>
-                    <p className="text-sm/[1.125rem] md:text-base/[1.375rem] text-gray-400 [&_b]:md:font-semibold [&_strong]:md:font-semibold">
+                    <p className="text-sm/[1.125rem] md:text-base/[1.375rem] text-gray-400 [&_b]:md:font-bold [&_strong]:md:font-bold">
                       {item.description}
                     </p>
                   </div>
@@ -141,7 +175,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 px-24 rounded-b-4xl bg-dark">
+      <section
+        id="services-grid"
+        className="m-0 max-w-full px-4 py-16 md:px-24 rounded-b-4xl bg-dark"
+      >
         <div className="container mx-auto px-6">
           <div className="text-center grid place-items-center gap-2 mb-14">
             <h2 className="text-5xl font-bold text-white">
@@ -158,118 +195,78 @@ export default function Home() {
       </section>
 
       {/* Stats strip */}
-      <section className="bg-linear-to-r from-white to-gray-50 py-16 px-24">
-        <div className="container mx-auto px-6">
-          <div className="text-center grid place-items-center gap-2 mb-14">
+      <section className="mr-0 max-w-full flex md:flex-row-reverse flex-col justify-between items-center">
+        <div className="container mx-auto md:p-16 p-10 space-y-10">
+          <div className="grid place-items-start gap-2">
             <h2 className="text-5xl font-bold">Who are Cyber Hunter?</h2>
-            <p className="text-gray-400 md:w-2xl"></p>
+            <p className="text-gray-400 md:w-2xl">
+              CyberHunter is a leading company specializing in information
+              security. We are dedicated to delivering comprehensive reports on
+              cyber- attacks, with a particular focus on the Mena region. Our
+              team of expert information security reporters provides up-to-date
+              insights and analyses to keep our clients informed.
+            </p>
           </div>
-        </div>
-        {/* <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
             <div>
-              <div className="text-3xl font-bold">98%</div>
+              <div className="text-4xl font-bold text-blue-500">98%</div>
               <div className="text-sm text-gray-500">Client satisfaction</div>
             </div>
             <div>
-              <div className="text-3xl font-bold">+250</div>
+              <div className="text-4xl font-bold text-blue-500">+250</div>
               <div className="text-sm text-gray-500">Assessments completed</div>
             </div>
             <div>
-              <div className="text-3xl font-bold">24/7</div>
+              <div className="text-4xl font-bold text-blue-500">24/7</div>
               <div className="text-sm text-gray-500">Security operations</div>
             </div>
           </div>
-        </div> */}
+
+          <Link href={"/about"} className="btnPrimary">
+            Get to Know Us
+          </Link>
+        </div>
+
+        <div className="w-full h-full md:m-0 mx-10">
+          <Image
+            src={"/Images/Cyber-security.webp"}
+            alt={"Cyber Security"}
+            className="md:rounded-r-4xl "
+            height={700}
+            width={700}
+          />
+        </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 px-4 md:px-24">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold mb-6 text-center text-black">
-            Trusted by organizations
+      {/* --- New Component: Step-by-Step / How It Works --- */}
+      <StepByStep />
+      {/* --- End New Component --- */}
+
+      {/* --- Testimonials Carousel (Modernized) --- */}
+      <section className="m-0 overflow-hidden max-w-full px-4 py-16 md:px-24">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <h2 className="text-5xl text-dark font-bold mb-10 text-center">
+            Trusted by Organizations
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <blockquote className="p-6 bg-white rounded-lg shadow">
-              <p className="text-gray-700 mb-4">
-                Cyber Hunter found critical issues in our environment and helped
-                us remediate them quickly — great team.
-              </p>
-              <footer className="text-sm text-gray-500">
-                — CTO, FinTech Co.
-              </footer>
-            </blockquote>
-
-            <blockquote className="p-6 bg-white rounded-lg shadow">
-              <p className="text-gray-700 mb-4">
-                Their MDR service reduced our mean time to detect and respond
-                significantly.
-              </p>
-              <footer className="text-sm text-gray-500">
-                — Security Lead, HealthTech
-              </footer>
-            </blockquote>
-
-            <blockquote className="p-6 bg-white rounded-lg shadow">
-              <p className="text-gray-700 mb-4">
-                Clear reporting and prioritized remediation made our audit a
-                breeze.
-              </p>
-              <footer className="text-sm text-gray-500">
-                — Compliance Officer, Retail Group
-              </footer>
-            </blockquote>
+          <div className="max-w-7xl">
+            <TestimonialCards />
           </div>
         </div>
       </section>
+      {/* --- End Testimonials Carousel --- */}
 
-      {/* Contact form
-      <section className="bg-white py-16">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <h2 className="text-3xl font-bold mb-4 text-center text-black">
-            Get in touch
+      {/* --- FAQ Accordion (Modernized) --- */}
+      <section className="bg-gray-50 m-0 max-w-full px-4 py-16 md:px-24">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <h2 className="text-4xl md:text-5xl font-bold mb-10 text-center text-black">
+            Frequently Asked Questions
           </h2>
-          <p className="text-gray-600 text-center mb-8">
-            Tell us about your project and we&#39;ll recommend the right
-            services.
-          </p>
-
-          <form className="grid grid-cols-1 gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                aria-label="Name"
-                placeholder="Full name"
-                className="border rounded-lg px-4 py-3"
-              />
-              <input
-                aria-label="Email"
-                placeholder="Email address"
-                className="border rounded-lg px-4 py-3"
-              />
-            </div>
-            <input
-              aria-label="Company"
-              placeholder="Company (optional)"
-              className="border rounded-lg px-4 py-3"
-            />
-            <textarea
-              aria-label="Message"
-              placeholder="How can we help?"
-              rows={5}
-              className="border rounded-lg px-4 py-3"
-            />
-
-            <div className="flex items-center justify-center">
-              <button
-                type="submit"
-                className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-semibold"
-              >
-                Send message
-              </button>
-            </div>
-          </form>
+          
+          <FQACards />
         </div>
-      </section> */}
+      </section>
+      {/* --- End FAQ Accordion --- */}
     </main>
   );
 }

@@ -3,7 +3,11 @@ import "./globals.css";
 import Navbar from "../Components/Navbar";
 import Script from "next/script";
 import { CyberhunterOrganization } from "@/lib/Schemas/CHJsonLd";
-import { generateBreadcrumbSchema, webpageSchema, websiteSchema } from "@/lib/Schemas";
+import {
+  generateBreadcrumbSchema,
+  webpageSchema,
+  websiteSchema,
+} from "@/lib/Schemas";
 import Footer from "@/Components/Footer";
 
 const title = "%s | Cyber Hunter";
@@ -110,7 +114,9 @@ export default function RootLayout({
           id="organization-schema"
           type="application/ld+json"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(CyberhunterOrganization) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(CyberhunterOrganization),
+          }}
         />
 
         {/* WebSite Schema */}
@@ -159,7 +165,7 @@ export default function RootLayout({
       </head>
       <body className={""}>
         <Navbar />
-        <main>{children}</main>
+        {children}
         <Footer />
       </body>
     </html>
