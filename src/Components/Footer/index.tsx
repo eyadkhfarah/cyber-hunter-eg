@@ -22,7 +22,7 @@ export default function Footer() {
         </h2>
         <Link
           href="/contact"
-          className="inline-block bg-linear-to-r from-blue-500 to-cyan-400 text-white px-6 py-3 rounded-2xl font-semibold shadow-md hover:scale-[1.02] transition"
+          className="inline-block bg-linear-to-r from-blue-500 to-cyan-400 text-white px-6 py-3 rounded-2xl font-bold shadow-md hover:scale-[1.02] transition"
         >
           Request the demo
         </Link>
@@ -56,7 +56,7 @@ export default function Footer() {
 
             {/* Social links & contact */}
             <div>
-              <h4 className="text-lg font-semibold mb-3">Follow & contact</h4>
+              <h4 className="text-lg font-bold mb-3">Follow & contact</h4>
               <p className="text-slate-300 mb-3">
                 Follow us on social or email us directly.
               </p>
@@ -72,7 +72,7 @@ export default function Footer() {
                     key={index}
                     href={item.href}
                     target="_blank"
-                    className="font-black group pb-2 flex justify-between items-center transition-all ease-in-out duration-300"
+                    className="group pb-2 flex justify-between items-center transition-all ease-in-out duration-300"
                   >
                     <span className="p-2 text-2xl text-white rounded-full bg-blue-950 group-hover:bg-blue-500 transition-colors duration-500">
                       <item.icon />
@@ -92,7 +92,7 @@ export default function Footer() {
                   </Link>
                 </div>
                 <div className="flex items-center gap-3 mt-2">
-                  <span className="font-medium">Phone</span>
+                  <span className="font-bold">Phone</span>
                   <span className="text-slate-300">{social.phone}</span>
                 </div>
               </div>
@@ -100,7 +100,7 @@ export default function Footer() {
 
             {/* Links */}
             <div>
-              <h4 className="text-lg font-semibold mb-3">Quick links</h4>
+              <h4 className="text-lg font-bold mb-3">Quick links</h4>
               <ul className="space-y-2 text-slate-300">
                 {FooterLink.map((link, i) => (
                   <li key={i}>

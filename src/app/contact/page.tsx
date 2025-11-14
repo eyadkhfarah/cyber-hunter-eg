@@ -17,7 +17,7 @@ export default function ContactPage() {
   return (
     <main className="container mx-auto md:px-24 px-6 py-16">
       <header className="max-w-3xl mx-auto text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Contact Us</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
         <p className="text-lg text-slate-600">
           Have a question or need help with your security program? Send us a
           message or reach out via email and social media — we usually respond
@@ -60,27 +60,27 @@ export default function ContactPage() {
                   href: SocialLink.facebook,
                   icon: RiFacebookFill,
 
-                  text: "فيسبوك",
+                  text: "Facebook",
                 },
                 {
                   href: social.instagram,
                   icon: RiInstagramLine,
-                  text: "إنستاجرام",
+                  text: "Instagram",
                 },
                 {
                   href: social.twitter,
                   icon: RiTwitterXLine,
-                  text: "تويتر (X)",
+                  text: "X",
                 },
                 {
                   href: social.linkedin,
                   icon: RiLinkedinFill,
-                  text: "تويتر (X)",
+                  text: "LinkedIn",
                 },
                 {
                   href: social.tiktok,
                   icon: RiTiktokFill,
-                  text: "تويتر (X)",
+                  text: "Tiktok",
                 },
               ].map((item, index) => (
                 <Link

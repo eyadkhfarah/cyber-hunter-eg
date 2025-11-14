@@ -113,6 +113,10 @@
   .btnPrimary {
     @apply text-white font-bold py-3 px-6 cursor-pointer rounded-2xl shadow-lg bg-blue-500 transition-colors duration-300;
   }
+
+  p {
+    @apply font-regular
+  }
 }
 
 /* Animated background blobs for hero */
