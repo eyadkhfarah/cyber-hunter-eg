@@ -110,7 +110,7 @@ const LearnSection: React.FC<LearnSectionProps> = ({
 const GuaranteeBanner: React.FC = () => (
   <section className="bg-linear-to-r from-green-500 to-green-700 p-8 rounded-2xl shadow-2xl text-white my-16  mx-auto">
     <div className="md:flex grid items-center space-x-4">
-      <CheckCircle className="w-10 h-10 shrink-0" />
+      <CheckCircle className="w-10 h-10 shrink-0 md:m-0 mb-4" />
       <div>
         <h2 className="text-2xl md:text-3xl font-bold mb-1">
           Our 100% Practical Guarantee
@@ -155,8 +155,8 @@ const App: React.FC = () => {
         <div className="mx-auto">
           {/* Blue Team Courses */}
           <div className="mb-16">
-            <div className="md:flex grid gap-3 items-center justify-center gap-3 mb-4">
-              <Shield className="w-8 h-8 text-indigo-600" />
+            <div className="md:flex grid gap-3 place-items-center items-center justify-center gap-3 mb-4">
+              <Shield className="text-2xl p-3 bg-indigo-50 border border-indigo-200 text-indigo-600" />
               <h2 className="text-3xl font-bold text-center text-black">
                 Blue Team Defensive Diplomas
               </h2>
@@ -190,8 +190,8 @@ const App: React.FC = () => {
           <div className="border-t pt-12 mt-12"></div> {/* Separator */}
           {/* Red Team Courses */}
           <div className="mb-16">
-            <div className="md:flex grid gap-3 items-center justify-center gap-3 mb-4">
-              <Zap className="w-8 h-8 text-red-600" />
+            <div className="md:flex grid place-items-center gap-3 items-center justify-center gap-3 mb-4">
+              <Zap className="text-2xl p-3 text-red-600 bg-indigo-50 border border-indigo-200" />
               <h2 className="text-3xl font-bold text-center text-black">
                 Red Team Offensive Diplomas
               </h2>
