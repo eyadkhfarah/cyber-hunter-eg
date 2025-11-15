@@ -3,6 +3,7 @@ import { SocialLink } from "@/lib/SocialLinks";
 import Image from "next/image";
 import Link from "next/link";
 import SocialLinks from "../SocialLinks";
+import { NavLinks } from "@/lib/NavList";
 
 export default function Footer() {
   const social = SocialLink;
@@ -83,6 +84,16 @@ export default function Footer() {
             <div>
               <h4 className="text-lg uppercase font-bold mb-3">Quick links</h4>
               <ul className="space-y-2 text-slate-300">
+                {NavLinks.map((link, i) => (
+                  <li key={i}>
+                    <Link
+                      href={link.link}
+                      className="hover:text-white transition"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
                 {FooterLink.map((link, i) => (
                   <li key={i}>
                     <Link
