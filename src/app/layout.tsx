@@ -64,6 +64,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon/icon0.svg", type: "image/svg+xml" },// "any" for .ico format
+      { url: "/favicon/icon0.png", type: "image/png", sizes: "48x48" },// "any" for .ico format
     ],
     apple: "/favicon/apple-icon.png",
   },
@@ -108,6 +109,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="apple-mobile-web-app-title" content="Cyber Hunter" />
         {/* Organization Schema */}
         <Script
           id="organization-schema"
