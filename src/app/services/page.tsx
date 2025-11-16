@@ -1,43 +1,13 @@
 import StepByStep from "@/Components/ui/StepByStep";
+import { cyberSecurityServices } from "@/lib/Data/CyberSecurityServices";
 import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
-import { HatGlasses } from "lucide-react";
 import { Metadata } from "next";
-import { GrShieldSecurity } from "react-icons/gr";
-import { RiFingerprintLine } from "react-icons/ri";
-import { TbFishHook } from "react-icons/tb";
 
 export const metadata: Metadata = generateStaticMetadata({
   title: "Services",
   description: "CyberHunter provides comprehensive cybersecurity solutions to protect your business. Our expert services include Digital Forensics & Incident Response (DF&IR), proactive Threat Hunting, 24/7 SOC as a Service, and Phishing Simulations.",
   url: "/services",
 });
-
-const services = [
-  {
-    name: "DF & IR",
-    description:
-      "Rapid incident response and digital forensics to contain breaches, preserve evidence, identify root cause, and deliver practical remediation playbooks.",
-    icon: RiFingerprintLine,
-  },
-  {
-    name: "Threat Hunting",
-    description:
-      "Proactive threat hunting to discover hidden adversaries, investigate indicators of compromise, and tune detections to your environment.",
-    icon: HatGlasses,
-  },
-  {
-    name: "SOC as a Service",
-    description:
-      "24/7 managed security operations with expert triage, tailored detections, and automated response to reduce dwell time and operational risk.",
-    icon: GrShieldSecurity,
-  },
-  {
-    name: "Phishing Campaign Simulation",
-    description:
-      "Realistic phishing simulations and targeted awareness training that measure employee risk and provide actionable remediation to strengthen human defenses.",
-    icon: TbFishHook,
-  },
-];
 
 export default function page() {
   return (
@@ -50,7 +20,7 @@ export default function page() {
       </header>
 
       <section className="grid md:grid-cols-2 gap-5">
-        {services.map((service, i) => {
+        {cyberSecurityServices.map((service, i) => {
           return (
             <div className="bg-dark text-white p-5 rounded-3xl md:flex grid gap-5" key={i}>
               <span className="bg-blue-600 h-fit w-fit text-4xl rounded-4xl text-white p-2">
