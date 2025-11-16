@@ -245,7 +245,7 @@ export default function Home() {
               return (
                 <div
                   key={i}
-                  className="border border-blue-900 h-full rounded-2xl p-7 md:flex grid gap-6"
+                  className="border border-blue-900 h-full rounded-2xl p-7 lg:flex grid gap-6"
                 >
                   <span className="bg-clip-text text-transparent bg-linear-to-r from-cyan-300 via-blue-400 to-indigo-500 text-5xl font-bold mb-3">
                     <AnimatedNum from={0} to={item.numbers} />
@@ -286,7 +286,7 @@ export default function Home() {
       </section>
 
       {/* Stats strip */}
-      <section className="mr-0 max-w-full flex md:flex-row-reverse flex-col justify-between items-center">
+      <section className="mr-0 max-w-full flex lg:flex-row-reverse flex-col justify-between items-center">
         <div className="container mx-auto md:p-16 p-10 space-y-10">
           <div className="grid place-items-start gap-2">
             <h2 className="text-5xl font-bold">Who are Cyber Hunter?</h2>
@@ -319,7 +319,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="w-full h-full md:m-0 mx-10">
+        <div className="w-full h-full lg:m-0 mx-10">
           <Image
             src={"/Images/Cyber-security.webp"}
             alt={"Cyber Security"}

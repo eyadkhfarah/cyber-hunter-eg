@@ -61,6 +61,16 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: [
+      { url: "/favicon/icon0.svg", type: "image/svg+xml" },
+      { url: "/favicon/favicon.ico", sizes: "any" }, // "any" for .ico format
+    ],
+    shortcut: "/favicon/favicon.ico",
+    apple: "/favicon/apple-icon.png",
+  },
+  manifest: "/favicon/site.webmanifest",
+  
   metadataBase: new URL(siteUrl),
   openGraph: {
     title: {
@@ -100,15 +110,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon/icon0.svg" />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <meta name="apple-mobile-web-app-title" content="Cyber Hunter" />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
         {/* Organization Schema */}
         <Script
           id="organization-schema"

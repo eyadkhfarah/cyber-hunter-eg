@@ -14,7 +14,7 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ open, setOpen }) => {
   return (
-    <div className="md:hidden relative">
+    <div className="lg:hidden relative">
       {/* Hamburger Icon */}
       <button
         onClick={() => setOpen(!open)}
@@ -77,7 +77,7 @@ export default function LowerNav() {
             />
           </Link>
 
-          <div className="md:flex hidden items-center space-x-9">
+          <div className="lg:flex hidden items-center space-x-9">
             {NavLinks.map((nav, i) => (
               <Link
                 key={i}
@@ -92,7 +92,7 @@ export default function LowerNav() {
           <div className="flex items-center gap-5">
             <Link
               href={"/contact"}
-              className="btnPrimary hidden md:inline-flex"
+              className="btnPrimary hidden lig:inline-flex"
             >
               Get Started
             </Link>

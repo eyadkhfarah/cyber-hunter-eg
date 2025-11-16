@@ -1,5 +1,7 @@
 import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
 import { Metadata } from "next";
+import Email from "./Email";
+import { GuaranteeBanner } from "@/Components/Client/GuaranteeBanner";
 
 export const metadata: Metadata = generateStaticMetadata({
   title: "Academy Courses Registration",
@@ -19,6 +21,11 @@ export default function page() {
           To register for our Academy Courses, please fill out the registration form below with your details. Once submitted, our team will review your information and get back to you with the next steps to complete your enrollment.
         </p>
       </header>
+
+      <section className="grid md:col- md:grid-cols-3 gap-14">
+        <Email className={"md:col-span-2 md:order-last order-first"} />
+        <GuaranteeBanner />
+      </section>
     </main>
   )
 }
