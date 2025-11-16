@@ -8,60 +8,107 @@ import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+// Define the shape of your form data
 type FormValues = {
   name: string;
   email: string;
-  number: number;
+  number: string;
   governate: string;
-  team: string;
+  // Use union for predefined values
+  team: "blue" | "red" | "default";
   courses: string;
   message: string;
 };
 
-type Form = {
-  className: string;
+// Define the component props
+type FormProps = {
+  className?: string;
 };
 
+// Base class for inputs (for consistency)
 const inputClass =
   "w-full rounded-lg p-3 border text-black placeholder-slate-400 rounded-2xl border-2 border-blue-950 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition";
-const errorInputClass = "ring-red-500" + inputClass;
 
-export default function Email({ className }: Form): React.ReactElement {
+// Class for inputs with validation errors (uses cn for clean override)
+const errorInputClass = cn(
+  inputClass,
+  "border-red-500 focus:ring-red-500 focus:border-red-500"
+);
+
+export default function EmailForm({ className }: FormProps): React.ReactElement {
   const {
     register,
     handleSubmit,
     reset,
+    watch, // <-- Add watch here
+    setValue, // <-- Add setValue here
     formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      number: "",
+      governate: "",
+      team: "default",
+      courses: "default",
+      message: "",
+    },
+  });
 
+  // Watch the 'team' field
+  const selectedTeam = watch("team");
+
+  // Effect to reset the form upon successful submission
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      const timeout = setTimeout(() => {
+        reset();
+      }, 3000);
+
+      return () => clearTimeout(timeout);
     }
   }, [isSubmitSuccessful, reset]);
 
+  // Effect to handle course selection change when team changes
+  useEffect(() => {
+    // 1. Reset the 'courses' field value
+    setValue("courses", "default");
+    // 2. Optionally, trigger validation for 'courses' to clear any previous error
+    // trigger("courses"); // Uncomment if you want immediate validation feedback
+  }, [selectedTeam, setValue]); // Re-run whenever selectedTeam changes
+
   const onSubmit = async (data: FormValues) => {
-    // Replace endpoint with your real API route or email service
     try {
-      await fetch("/api/academy-register", {
+      const response = await fetch("/api/academy-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      // Optionally show a success toast / message here
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
     } catch (error) {
-      // Optionally handle/send error to logging service
       console.error("Send email failed", error);
     }
   };
 
+  // Determine which course list to display
+  const coursesToShow =
+    selectedTeam === "blue"
+      ? AcademyCoursesBlue
+      : selectedTeam === "red"
+      ? AcademyCoursesRed
+      : []; // Empty array if 'default' is selected
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      aria-busy={isSubmitting}
       noValidate
       className={cn("space-y-6 w-full", className)}
     >
-      {/* Name + Email */}
+      {/* Name + Phone Number */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <input
@@ -72,12 +119,14 @@ export default function Email({ className }: Form): React.ReactElement {
             })}
             aria-invalid={errors.name ? "true" : "false"}
             type="text"
-            disabled={isSubmitSuccessful}
+            disabled={isSubmitSuccessful || isSubmitting}
             placeholder="Your Name"
             className={errors.name ? errorInputClass : inputClass}
           />
           {errors.name && (
-            <p className="mt-1 text-sm text-red-400">{errors.name.message}</p>
+            <p className="mt-1 text-sm text-red-400" role="alert">
+              {errors.name.message}
+            </p>
           )}
         </div>
         <div>
@@ -85,16 +134,48 @@ export default function Email({ className }: Form): React.ReactElement {
             id="number"
             {...register("number", {
               required: "Your phone number is required",
-              minLength: { value: 11, message: "Number is too short" },
+              minLength: { value: 11, message: "Number must be 11 digits" },
+              pattern: {
+                value: /^(01)[0-9]{9}$/,
+                message: "Invalid phone number format (must be 11 digits)",
+              },
             })}
             aria-invalid={errors.number ? "true" : "false"}
-            type="number"
-            disabled={isSubmitSuccessful}
+            type="tel"
+            disabled={isSubmitSuccessful || isSubmitting}
             placeholder="Your Phone Number (WhatsApp Prefer)"
             className={errors.number ? errorInputClass : inputClass}
           />
           {errors.number && (
-            <p className="mt-1 text-sm text-red-400">{errors.number.message}</p>
+            <p className="mt-1 text-sm text-red-400" role="alert">
+              {errors.number.message}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Email + Governate */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <input
+            id="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: "Invalid email address",
+              },
+            })}
+            aria-invalid={errors.email ? "true" : "false"}
+            type="email"
+            disabled={isSubmitSuccessful || isSubmitting}
+            placeholder="Your Email"
+            className={errors.email ? errorInputClass : inputClass}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-400" role="alert">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
@@ -106,66 +187,76 @@ export default function Email({ className }: Form): React.ReactElement {
             })}
             aria-invalid={errors.governate ? "true" : "false"}
             type="text"
-            disabled={isSubmitSuccessful}
+            disabled={isSubmitSuccessful || isSubmitting}
             placeholder="Governate"
-            className={errors.governate ? errorInputClass + "w-full" : inputClass}
+            className={errors.governate ? errorInputClass : inputClass}
           />
           {errors.governate && (
-            <p className="mt-1 text-sm text-red-400">
+            <p className="mt-1 text-sm text-red-400" role="alert">
               {errors.governate.message}
             </p>
           )}
         </div>
-        {/* Team */}
+      </div>
 
+      {/* Team + Courses */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="">
           <select
             id="team"
-            defaultValue={"default"}
-            disabled={isSubmitSuccessful}
-            // aria-invalid={errors.courses ? "true" : "false"}
-            {...register("team", { required: "Select Your Team" })}
+            disabled={isSubmitSuccessful || isSubmitting}
+            aria-invalid={errors.team ? "true" : "false"}
+            {...register("team", {
+              validate: (value) =>
+                value !== "default" || "Select Your Team",
+            })}
             className={errors.team ? errorInputClass : inputClass}
           >
             <option value="default">Select Team</option>
-
-            <option value={"blue"}>Blue Team</option>
-            <option value={"red"}>Red Team</option>
+            <option value="blue">Blue Team</option>
+            <option value="red">Red Team</option>
           </select>
           {errors.team && (
-            <p className="mt-1 text-sm text-red-400">{errors.team.message}</p>
+            <p className="mt-1 text-sm text-red-400" role="alert">
+              {errors.team.message}
+            </p>
           )}
         </div>
-      </div>
 
-      {/* Courses */}
-      <div className="">
-        <select
-          id="courses"
-          defaultValue={"default"}
-          disabled={isSubmitSuccessful}
-          aria-invalid={errors.courses ? "true" : "false"}
-          {...register("courses", { required: "Select the course you want" })}
-          className={errors.courses ? errorInputClass : inputClass}
-        >
-          <option value="default" selected>
-            Select Course
-          </option>
-          {AcademyCoursesBlue.map((courses, i) => (
-            <option value={courses.title} key={i}>
-              {courses.title}
+        {/* Courses */}
+        <div className="">
+          <select
+            id="courses"
+            disabled={isSubmitSuccessful || isSubmitting}
+            aria-invalid={errors.courses ? "true" : "false"}
+            {...register("courses", {
+              validate: (value) =>
+                value !== "default" || "Select the course you want",
+            })}
+            className={errors.courses ? errorInputClass : inputClass}
+          >
+            <option value="default">
+              {/* Change prompt based on selection */}
+              {selectedTeam === 'default' ? "Select Course" : `Select ${selectedTeam.charAt(0).toUpperCase() + selectedTeam.slice(1)} Course`}
             </option>
-          ))}
-          {AcademyCoursesRed.map((courses, i) => (
-            <option value={courses.title} key={i}>
-              {courses.title}
-            </option>
-          ))}
-        </select>
+            {/* CONDITIONAL RENDERING: Display only courses for the selected team */}
+            {coursesToShow.map((course) => (
+              <option value={course.title} key={`${selectedTeam}-${course.title}`}>
+                {course.title}
+              </option>
+            ))}
+            {/* Show a placeholder if a team hasn't been selected */}
+            {selectedTeam === 'default' && (
+                <option value="" disabled>First, select a team above</option>
+            )}
+          </select>
 
-        {errors.courses && (
-          <p className="mt-1 text-sm text-red-400">{errors.courses.message}</p>
-        )}
+          {errors.courses && (
+            <p className="mt-1 text-sm text-red-400" role="alert">
+              {errors.courses.message}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Message */}
@@ -179,14 +270,14 @@ export default function Email({ className }: Form): React.ReactElement {
           })}
           aria-invalid={errors.message ? "true" : "false"}
           placeholder="Your Message"
-          disabled={isSubmitSuccessful}
+          disabled={isSubmitSuccessful || isSubmitting}
           rows={6}
-          className={`w-full rounded-lg p-3 border-2 ${
-            errors.message ? "border-red-500" : ""
-          } text-black placeholder-slate-400 rounded-2xl border-2 border-blue-950 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition`}
+          className={errors.message ? errorInputClass : inputClass}
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-400">{errors.message.message}</p>
+          <p className="mt-1 text-sm text-red-400" role="alert">
+            {errors.message.message}
+          </p>
         )}
       </div>
 
@@ -194,14 +285,14 @@ export default function Email({ className }: Form): React.ReactElement {
       <div className="flex flex-col items-center">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isSubmitSuccessful}
           className="w-full btnPrimary"
         >
           {isSubmitting ? "Sending..." : "Register the course"}
         </button>
 
         {isSubmitSuccessful && (
-          <p className="mt-3 text-sm text-emerald-400">
+          <p className="mt-3 text-sm text-emerald-400" role="status">
             Thank you — your registration was sent. We will reply shortly.
           </p>
         )}

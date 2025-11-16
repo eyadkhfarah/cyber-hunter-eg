@@ -1,7 +1,7 @@
 import { CheckCircle } from "lucide-react";
 
 export const GuaranteeBanner: React.FC = () => (
-  <section className="bg-linear-to-r h-fit m-0 from-green-500 to-green-700 p-8 rounded-2xl shadow-2xl text-white">
+  <section className="bg-linear-to-r h-fit mx-auto m-0 from-green-500 to-green-700 p-8 rounded-2xl shadow-2xl text-white">
     <div className="md:flex md:gap-6 gap-3 grid space-x-4">
       <CheckCircle className="w-10 h-10 shrink-0 md:m-0" />
       <div className="flex gap-7 items-center">

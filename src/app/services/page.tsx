@@ -1,8 +1,9 @@
 import StepByStep from "@/Components/ui/StepByStep";
 import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
+import { HatGlasses } from "lucide-react";
 import { Metadata } from "next";
 import { GrShieldSecurity } from "react-icons/gr";
-import { RiFingerprintLine, RiShieldKeyholeLine } from "react-icons/ri";
+import { RiFingerprintLine } from "react-icons/ri";
 import { TbFishHook } from "react-icons/tb";
 
 export const metadata: Metadata = generateStaticMetadata({
@@ -22,7 +23,7 @@ const services = [
     name: "Threat Hunting",
     description:
       "Proactive threat hunting to discover hidden adversaries, investigate indicators of compromise, and tune detections to your environment.",
-    icon: RiShieldKeyholeLine,
+    icon: HatGlasses,
   },
   {
     name: "SOC as a Service",
@@ -53,7 +54,7 @@ export default function page() {
           return (
             <div className="bg-dark text-white p-5 rounded-3xl md:flex grid gap-5" key={i}>
               <span className="bg-blue-600 h-fit w-fit text-4xl rounded-4xl text-white p-2">
-                <service.icon />
+                <service.icon className="w-8 h-8" />
               </span>
               <div className="">
                 <h2 className="text-2xl mb-1 font-bold">{service.name}</h2>

@@ -2,6 +2,10 @@ import React from "react";
 import { Shield, Zap, GraduationCap, Activity, Clock } from "lucide-react";
 import Link from "next/link";
 import { GuaranteeBanner } from "@/Components/Client/GuaranteeBanner";
+import {
+  AcademyCoursesBlue,
+  AcademyCoursesRed,
+} from "@/lib/Data/AcademyCourses";
 
 // NOTE: Next.js specific Metadata imports and Link component have been removed/replaced
 // to ensure the component is runnable in a single-file React environment.
@@ -129,12 +133,15 @@ const App: React.FC = () => {
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <CourseCard
-                title="Cyber Security Blue Team (SOC) Diploma"
-                description="Master the skills to monitor and defend an organization’s systems. Includes practical training in SIEM operations, log analysis, incident response, and preparation for globally recognized certifications."
-                duration="3.5 - 4 Months"
-                focus="SOC Analyst"
-              />
+              {AcademyCoursesBlue.map((course, i) => (
+                <CourseCard
+                  key={i}
+                  title={course.title}
+                  description={course.description}
+                  duration={course.duration}
+                  focus={course.focus}
+                />
+              ))}
               <div className="bg-gray-100 p-6 rounded-xl shadow-inner border border-dashed border-gray-400 flex items-center justify-center">
                 <p className="text-center text-gray-500 italic">
                   More Blue Team courses coming soon!
@@ -166,12 +173,16 @@ const App: React.FC = () => {
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <CourseCard
-                title="Cyber Security Penetration Testing Diploma"
-                description="Simulate real-world attacks, master vulnerability assessment, and learn ethical hacking techniques. Prepare for industry-leading certifications like eJPTv2 and eWPTv2."
-                duration="Contact for Details"
-                focus="Penetration Tester"
-              />
+              {AcademyCoursesRed.map((course, i) => (
+                <CourseCard
+                  key={i}
+                  title={course.title}
+                  description={course.description}
+                  duration={course.duration}
+                  focus={course.focus}
+                />
+              ))}
+
               <div className="bg-gray-100 p-6 rounded-xl shadow-inner border border-dashed border-gray-400 flex items-center justify-center">
                 <p className="text-center text-gray-500 italic">
                   More Red Team courses coming soon!
@@ -198,7 +209,7 @@ const App: React.FC = () => {
       <section className="mt-16">
         <div className="grid place-items-center mb-8 p-8 md:p-12 py-16 rounded-4xl bg-indigo-50 border border-indigo-200">
           <h2 className="text-2xl md:text-3xl mb-6 font-bold text-center text-gray-900">
-            Ready to get started? We&apos;re here to help — Contact us NOW
+            Ready to Elevate Your Cybersecurity Skills? Register NOW
           </h2>
           <Link href={"/academy-courses/registration"} className="btnPrimary">
             Register for a Course

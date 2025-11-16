@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 type FormValues = {
@@ -9,28 +9,54 @@ type FormValues = {
   message: string;
 };
 
-export default function Email() {
-  const [submitted, setSubmitted] = useState(false);
+// Define shared input styles to avoid repetition and improve maintainability
+const inputBaseClass =
+  "w-full p-3 rounded-2xl border-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const inputDefaultClass = `${inputBaseClass} border-blue-950`;
+const inputErrorClass = `${inputBaseClass} border-red-500`;
 
+export default function Email() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm<FormValues>({
     defaultValues: { company: "", email: "", message: "" },
   });
 
-  async function onSubmit(data: FormValues) {
-    // Placeholder: you can replace this with a real API call
-    try {
-      // simulate network
-      await new Promise((r) => setTimeout(r, 600));
-      setSubmitted(true);
+  // Reruns when submission success changes to reset the form.
+  useEffect(() => {
+    if (isSubmitSuccessful) {
       reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  async function onSubmit(data: FormValues) {
+    // 🧼 The sanitization step: cleaning input data
+    const sanitizedData = {
+      company: data.company.trim(),
+      email: data.email.trim(),
+      message: data.message.trim(),
+    };
+
+    try {
+      // Simulate network latency (600ms)
+      await new Promise((r) => setTimeout(r, 600));
+
+      // 🎯 FIX: USE the sanitizedData object in the submission process
+      // If this were a real API call, it would look like this:
+      /*
+      await fetch("/api/cyber-partnership", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(sanitizedData), // <-- Now using sanitizedData
+      });
+      */
+      console.log("Submitting sanitized data:", sanitizedData);
+
     } catch (err) {
-      // handle error (show toast or inline message)
-      console.error(err);
+      console.error("Partnership submission failed:", err);
     }
   }
 
@@ -38,47 +64,76 @@ export default function Email() {
     <form
       className="space-y-4"
       onSubmit={handleSubmit(onSubmit)}
+      aria-busy={isSubmitting}
       noValidate
     >
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <input
-            {...register("company", { required: "Company name is required" })}
+            id="company"
+            {...register("company", {
+              required: "Company name is required for partnership",
+              minLength: { value: 3, message: "Company name is too short" },
+            })}
             aria-label="Company name"
+            aria-invalid={errors.company ? "true" : "false"}
+            aria-describedby={errors.company ? "company-error" : undefined}
             placeholder="Company name"
-            className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.company ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            disabled={isSubmitting || isSubmitSuccessful}
+            className={errors.company ? inputErrorClass : inputDefaultClass}
           />
           {errors.company && (
-            <p className="mt-1 text-sm text-red-400">{errors.company.message}</p>
+            <p id="company-error" className="mt-1 text-sm text-red-400" role="alert">
+              {errors.company.message}
+            </p>
           )}
         </div>
 
         <div>
           <input
+            id="email"
             {...register("email", {
-              required: "Email is required",
-              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email" },
+              required: "Email is required for contact",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Please enter a valid business email address",
+              },
             })}
+            type="email"
             aria-label="Contact email"
-            placeholder="Email"
-            className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.email ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            aria-invalid={errors.email ? "true" : "false"}
+            aria-describedby={errors.email ? "email-error" : undefined}
+            placeholder="Contact Email"
+            disabled={isSubmitting || isSubmitSuccessful}
+            className={errors.email ? inputErrorClass : inputDefaultClass}
           />
           {errors.email && (
-            <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
+            <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+              {errors.email.message}
+            </p>
           )}
         </div>
       </div>
 
       <div>
         <textarea
-          {...register("message", { required: "Please add a short message" })}
-          aria-label="Brief message"
-          placeholder="Short message about your interest"
+          id="message"
+          {...register("message", {
+            required: "Please detail your interest in the partnership",
+            minLength: { value: 20, message: "Message must be at least 20 characters" },
+          })}
+          aria-label="Brief message detailing partnership interest"
+          aria-invalid={errors.message ? "true" : "false"}
+          aria-describedby={errors.message ? "message-error" : undefined}
+          placeholder="Short message about your cybersecurity partnership interest"
           rows={4}
-          className={`w-full p-3 rounded-2xl border-2 border-blue-950 ${errors.message ? "border-red-500" : ""} text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          disabled={isSubmitting || isSubmitSuccessful}
+          className={errors.message ? inputErrorClass : inputDefaultClass}
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-400">{errors.message.message}</p>
+          <p id="message-error" className="mt-1 text-sm text-red-400" role="alert">
+            {errors.message.message}
+          </p>
         )}
       </div>
 
@@ -86,15 +141,17 @@ export default function Email() {
         <div className="flex justify-center">
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isSubmitSuccessful}
             className="btnPrimary"
           >
-            {isSubmitting ? "Sending…" : "Express interest"}
+            {isSubmitting ? "Sending Securely…" : "Express Partnership Interest"}
           </button>
         </div>
 
-        {submitted && (
-          <p className="mt-3 text-sm text-emerald-400">Thanks — we received your interest and will reach out when the program launches.</p>
+        {isSubmitSuccessful && (
+          <p className="mt-3 text-sm text-emerald-400" role="status">
+            Thanks — we received your interest and a member of our partnership security team will be in touch shortly.
+          </p>
         )}
       </div>
     </form>

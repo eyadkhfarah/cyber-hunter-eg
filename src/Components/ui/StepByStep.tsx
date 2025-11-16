@@ -12,7 +12,7 @@ const getStepClasses = (index: number) => {
 
 export default function StepByStep() {
   return (
-    <section className="m-0 max-w-full px-4 py-16 md:px-24 bg-gray-50">
+    <section className="m-0 max-w-full px-4 py-16 md:px-24">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-black">
@@ -35,7 +35,7 @@ export default function StepByStep() {
               return (
                 <div
                   key={item.step}
-                  className={`relative flex w-full max-w-6xl py-6 md:py-10 ${
+                  className={`relative lg:flex grid w-full max-w-6xl py-6 md:py-10 ${
                     isOdd ? "md:justify-end" : "md:justify-start"
                   }`}
                 >
@@ -50,8 +50,8 @@ export default function StepByStep() {
                       index
                     )}`}
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className="p-3 rounded-full bg-dark text-white shrink-0">
+                    <div className="lg:flex grid items-center lg:space-x-4 space-y-4">
+                      <div className="p-3 rounded-full w-fit h-fit bg-dark text-white shrink-0">
                         <IconComponent className="w-6 h-6" />
                       </div>
                       <h3 className="text-2xl font-bold text-black grow">
