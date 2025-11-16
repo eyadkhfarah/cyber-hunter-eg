@@ -12,7 +12,7 @@ export default function SocialLinks() {
   const social = SocialLink;
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       {[
         {
           href: social.facebook,
