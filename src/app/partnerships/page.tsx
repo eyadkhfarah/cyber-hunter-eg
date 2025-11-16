@@ -11,7 +11,7 @@ export const metadata: Metadata = generateStaticMetadata({
 
 export default function page() {
   return (
-    <main className="container mx-auto px-4 md:px-24 py-16">
+    <main className="container mx-auto px-6 py-16">
       <header className="text-center max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-3">
           Partnerships

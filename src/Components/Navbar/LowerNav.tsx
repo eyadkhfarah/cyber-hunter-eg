@@ -92,7 +92,7 @@ export default function LowerNav() {
           <div className="flex items-center gap-5">
             <Link
               href={"/contact"}
-              className="btnPrimary hidden lig:inline-flex"
+              className="btnPrimary hidden lg:inline-flex"
             >
               Get Started
             </Link>
