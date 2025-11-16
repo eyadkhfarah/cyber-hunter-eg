@@ -62,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...links,
     {
-      url: `${siteUrl}/articles/sitemap.xml`,
+      url: `${siteUrl}/blog/sitemap.xml`,
       lastModified: new Date(),
     },
   ];
