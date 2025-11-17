@@ -94,16 +94,15 @@ export default function AboutPage() {
 
       <section className="mt-12 max-w-3xl mx-auto text-center">
         <h3 className="text-3xl font-bold mb-3 text-black">
-          A note from our Founder
+          A note from the Team
         </h3>
         <p className="text-slate-600 mb-6">
-          I have worked on both sides of security — building systems and
-          breaking them — and I founded Cyber Hunter to bridge that gap. Our
+          We have worked on both sides of security — building systems and
+          breaking them — and We founded Cyber Hunter to bridge that gap. Our
           goal is simple: help teams ship features securely and keep their
           customers safe.
         </p>
-        <p className="text-sm text-slate-400">— Zeyad Zain, Founder</p>
-      </section>
+        </section>
 
       <section className="mt-12 max-w-3xl mx-auto text-center">
         <h4 className="text-2xl font-bold mb-4 text-black">
