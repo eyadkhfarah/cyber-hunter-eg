@@ -12,8 +12,8 @@ const getStepClasses = (index: number) => {
 
 export default function StepByStep() {
   return (
-    <section className="m-0 max-w-full px-4 py-16 md:px-24">
-        <div className="container mx-auto px-6">
+    <div className="max-w-full px-4 py-16 md:px-24">
+        <div className="container mx-auto px-5">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-black">
               Our 4-Step Security Process
@@ -70,6 +70,6 @@ export default function StepByStep() {
             })}
           </div>
         </div>
-      </section>
+      </div>
   )
 }

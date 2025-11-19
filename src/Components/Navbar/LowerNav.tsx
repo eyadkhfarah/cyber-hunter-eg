@@ -14,7 +14,7 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ open, setOpen }) => {
   return (
-    <div className="lg:hidden relative">
+    <div className="lg:hidden relative mb-2.5">
       {/* Hamburger Icon */}
       <button
         onClick={() => setOpen(!open)}
@@ -67,8 +67,8 @@ export default function LowerNav() {
             : "bg-transparent text-white")
         }
       >
-        <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <Link href={"/"} aria-label="Cyber Hunter">
+        <div className="grid lg:grid-cols-3 grid-cols-2 place-items-center max-w-7xl mx-auto">
+          <Link href={"/"} className="place-self-start" aria-label="Cyber Hunter">
             <Image
               src={"/Logo White.svg"}
               alt="Cyber Hunter Logo"
@@ -77,19 +77,19 @@ export default function LowerNav() {
             />
           </Link>
 
-          <div className="lg:flex hidden items-center space-x-9">
+          <div className="lg:flex hidden place-self-center items-center space-x-9">
             {NavLinks.map((nav, i) => (
               <Link
                 key={i}
                 href={nav.link}
-                className="hover:text-blue-600 font-bold transition-all duration-300"
+                className="hover:text-blue-600 whitespace-nowrap font-bold transition-all duration-300"
               >
                 {nav.name}
               </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 place-self-end">
             <Link
               href={"/contact"}
               className="btnPrimary hidden lg:inline-flex"
