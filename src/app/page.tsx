@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TestimonialCards from "@/Components/Client/testimonialCards";
 import FQACards from "@/Components/Client/FQACards";
-import StepByStep from "@/Components/ui/StepByStep";
+// import StepByStep from "@/Components/ui/StepByStep";
 import { Course, CourseCardProps } from "@/types/types";
 
 const risk = [
@@ -331,7 +331,7 @@ export default function Home() {
       </section>
 
       {/* --- New Component: Step-by-Step / How It Works --- */}
-      <StepByStep />
+      {/* <StepByStep /> */}
       {/* --- End New Component --- */}
 
       {/* --- Testimonials Carousel (Modernized) --- */}

@@ -14,7 +14,7 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ open, setOpen }) => {
   return (
-    <div className="lg:hidden relative mb-2.5">
+    <div className="lg:hidden relative mb-2">
       {/* Hamburger Icon */}
       <button
         onClick={() => setOpen(!open)}
@@ -89,7 +89,7 @@ export default function LowerNav() {
             ))}
           </div>
 
-          <div className="flex items-center gap-5 place-self-end mb-2.5">
+          <div className="flex items-center gap-5 place-self-end mb-2">
             <Link
               href={"/contact"}
               className="btnPrimary hidden lg:inline-flex"
