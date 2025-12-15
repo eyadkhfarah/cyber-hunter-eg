@@ -6,7 +6,11 @@ import Link from "next/link";
 import TestimonialCards from "@/Components/Client/testimonialCards";
 import FQACards from "@/Components/Client/FQACards";
 // import StepByStep from "@/Components/ui/StepByStep";
-import { Course, CourseCardProps } from "@/types/types";
+import {
+  AcademyCoursesBlue,
+  AcademyCoursesRed,
+} from "@/lib/Data/AcademyCourses";
+import { Shield, Zap } from "lucide-react";
 
 const risk = [
   {
@@ -41,92 +45,120 @@ const risk = [
 
 // --- New Academy Components ---
 
-const CourseCard: React.FC<CourseCardProps> = ({ course }) => (
-    <div className="flex flex-col rounded-xl overflow-hidden shadow-2xl bg-white transition duration-300 hover:shadow-blue-500/50 transform hover:-translate-y-1">
-        <div className="h-40 bg-gray-900 flex items-center justify-center relative">
-             {/* Placeholder for course image */}
-             <div className="text-white text-3xl font-bold p-4 opacity-80 z-10">
-                {course.icon}
-             </div>
-             <div className="absolute inset-0 bg-linear-to-br from-blue-900 to-gray-800 opacity-90"></div>
-        </div>
-        <div className="p-6 flex flex-col grow">
-            <h4 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h4>
-            <p className="text-gray-600 text-sm mb-4 grow">{course.description}</p>
-            <div className="flex justify-between items-center text-sm text-gray-500 mb-4 pt-2 border-t border-gray-100">
-                <span><i className="fas fa-chart-line mr-1"></i> {course.level}</span>
-                <span><i className="far fa-clock mr-1"></i> {course.duration}</span>
-            </div>
-            <Link
-                href={`/academy/${course.slug}`}
-                className="btnPrimary"
-            >
-                View Course
-            </Link>
-        </div>
-    </div>
-);
-
 const AcademyCoursesSection: React.FC = () => {
-    const featuredCourses: Course[] = [
-        {
-            title: "Ethical Hacking 101",
-            description: "Master fundamental penetration testing techniques and tools in a safe, controlled environment. Ideal for beginners.",
-            level: "Beginner",
-            duration: "40 Hrs",
-            slug: "eth-101",
-            icon: "🖥️"
-        },
-        {
-            title: "Advanced Cloud Security (AWS/Azure)",
-            description: "Deep dive into hardening cloud environments, focused on architecture review, compliance, and threat modeling.",
-            level: "Advanced",
-            duration: "65 Hrs",
-            slug: "cloud-adv",
-            icon: "☁️"
-        },
-        {
-            title: "Incident Response and Forensics",
-            description: "Learn how to effectively manage, contain, and analyze cybersecurity incidents, preserving evidence for investigation.",
-            level: "Intermediate",
-            duration: "50 Hrs",
-            slug: "ir-forensics",
-            icon: "🔎"
-        },
-    ];
+  return (
+    <section
+      id="academy"
+      className="m-0 max-w-full px-4 py-20 md:px-24 bg-gray-50"
+    >
+      <div className="container mx-auto px-6 max-w-6xl">
+        <div className="text-center grid gap-3 place-items-center mb-16">
+          <h2 className="text-5xl font-bold text-gray-900 mb-4">
+            Cyber Hunter Academy
+          </h2>
+          <p className="text-gray-600 text-center md:w-2xl">
+            Choose your specialization and master the skills needed for elite
+            cybersecurity roles.
+          </p>
+        </div>
 
-    return (
-        <section id="academy" className="m-0 max-w-full px-4 py-20 md:px-24 bg-gray-50">
-            <div className="container mx-auto px-6 max-w-6xl">
-                <div className="text-center grid gap-3 place-items-center mb-16">
-                    <h2 className="text-5xl font-bold text-gray-900 mb-4">
-                        Cyber Hunter Academy
-                    </h2>
-                    <p className="text-gray-400 text-center md:w-2xl">
-                        Sharpen your defense skills with our expert-led, hands-on training programs. Certification-ready courses for every stage of your career.
-                    </p>
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          {/* Blue Team SOC Diploma */}
+          <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-blue-100">
+            <div className="absolute inset-0 bg-linear-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-full bg-indigo-50 border border-indigo-200">
+                  <Shield className="w-6 h-6 text-indigo-600" />
                 </div>
-
-                <div className="grid md:grid-cols-3 gap-8 mb-12">
-                    {featuredCourses.map((course, index) => (
-                        <CourseCard key={index} course={course} />
-                    ))}
+                <span className="font-bold text-indigo-600 tracking-wider">
+                  Blue Team Defensive Diplomas
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                {AcademyCoursesBlue[0].title}
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                {AcademyCoursesBlue[0].description}
+              </p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    Duration
+                  </p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {AcademyCoursesBlue[0].duration}
+                  </p>
                 </div>
-
-                <div className="text-center pt-8">
-                    <Link
-                        href={"/academy-courses"}
-                        className="inline-flex items-center justify-center btnPrimary"
-                    >
-                        View All Academy Courses
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                    </Link>
+                <div>
+                  <span className="text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                    {AcademyCoursesBlue[0].focus}
+                  </span>
                 </div>
+              </div>
             </div>
-        </section>
-    );
+          </div>
+
+          {/* Red Team Penetration Testing Diploma */}
+          <div className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-red-100">
+            <div className="absolute inset-0 bg-linear-to-br from-red-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-3 rounded-full bg-red-50 border border-red-200">
+                  <Zap className="w-6 h-6 text-red-600" />
+                </div>
+                <span className="font-bold text-red-600 tracking-wider">
+                  Red Team Offensive Diplomas
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                {AcademyCoursesRed[0].title}
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                {AcademyCoursesRed[0].description}
+              </p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    Duration
+                  </p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {AcademyCoursesRed[0].duration}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-red-600 bg-red-50 px-3 py-1 rounded-full">
+                    {AcademyCoursesRed[0].focus}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center pt-8">
+          <Link
+            href={"/academy-courses"}
+            className="inline-flex items-center justify-center btnPrimary"
+          >
+            View Full Academy
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 ml-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default function Home() {
@@ -299,7 +331,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+          {/* <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
             <div>
               <div className="text-4xl font-bold text-blue-500">98%</div>
               <div className="text-sm text-gray-500">Client satisfaction</div>
@@ -312,7 +344,7 @@ export default function Home() {
               <div className="text-4xl font-bold text-blue-500">24/7</div>
               <div className="text-sm text-gray-500">Security operations</div>
             </div>
-          </div>
+          </div> */}
 
           <Link href={"/about"} className="btnPrimary">
             Get to Know Us
@@ -350,7 +382,7 @@ export default function Home() {
       {/* --- New Section: Academy Courses Preview --- */}
       <AcademyCoursesSection />
       {/* --- End New Section --- */}
-      
+
       {/* --- FAQ Accordion (Modernized) --- */}
       <section className="bg-linear-to-b from-gray-50 to-white m-0 max-w-full px-4 py-16 md:px-24">
         <div className="container mx-auto px-6 max-w-4xl">

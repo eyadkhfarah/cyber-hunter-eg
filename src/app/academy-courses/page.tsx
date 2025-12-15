@@ -16,6 +16,7 @@ interface CourseCardProps {
   description: string;
   duration: string;
   focus: string;
+  color: string; // e.g., 'indigo' or 'red'
 }
 
 interface LearnSectionProps {
@@ -56,12 +57,13 @@ const CourseCard: React.FC<CourseCardProps> = ({
   description,
   duration,
   focus,
+  color,
 }) => (
   <div className="bg-white p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-shadow duration-300">
-    <h2 className="text-2xl font-bold text-indigo-700 mb-2">{title}</h2>
+    <h2 className={`text-2xl font-bold text-${color}-600 mb-2`}>{title}</h2>
     <p className="text-slate-600 mb-4">{description}</p>
     <div className="flex justify-between items-center text-sm font-medium">
-      <span className="text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+      <span className={`text-${color}-600 bg-${color}-50 px-3 py-1 rounded-full`}>
         {focus}
       </span>
       <span className="text-slate-500 gap-2 flex items-center">
@@ -140,6 +142,7 @@ const App: React.FC = () => {
                   description={course.description}
                   duration={course.duration}
                   focus={course.focus}
+                  color="indigo"
                 />
               ))}
               <div className="bg-gray-100 p-6 rounded-xl shadow-inner border border-dashed border-gray-400 flex items-center justify-center">
@@ -180,6 +183,7 @@ const App: React.FC = () => {
                   description={course.description}
                   duration={course.duration}
                   focus={course.focus}
+                  color="red"
                 />
               ))}
 
