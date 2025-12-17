@@ -1,7 +1,7 @@
-import { notionContactForm } from "@/lib/notion";
+import { notionPartnerForm } from "@/lib/notion";
 import { NextRequest, NextResponse } from "next/server";
 
-const NOTION_DATABASE_ID = process.env.NOTION_CONTACT_DATABASE_ID;
+const NOTION_DATABASE_ID = process.env.NOTION_PARTNER_DATABASE_ID;
 
 export async function POST(request: NextRequest) {
   if (request.method !== "POST") {
@@ -9,31 +9,25 @@ export async function POST(request: NextRequest) {
   }
 
   if (!NOTION_DATABASE_ID) {
-    return NextResponse.json({ error: "Database ID not configured" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Database ID not configured" },
+      { status: 500 }
+    );
   }
 
   try {
     const body = await request.json();
 
-    await notionContactForm.pages.create({
+    await notionPartnerForm.pages.create({
       parent: {
         database_id: NOTION_DATABASE_ID,
       },
       properties: {
         Name: {
-          title: [{ text: { content: body.name } }],
+          title: [{ text: { content: body.company } }],
         },
         Email: {
           email: body.email || "example@example.com",
-        },
-        Phone: {
-          phone_number: body.phone || "0123456789",
-        },
-        Services: {
-          rich_text: [{ text: { content: body.serviceInterest } }] ,
-        },
-        Subject: {
-          rich_text: [{ text: { content: body.subject } }],
         },
         Message: {
           rich_text: [{ text: { content: body.message } }],

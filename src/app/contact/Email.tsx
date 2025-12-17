@@ -1,22 +1,14 @@
 "use client";
 
 import { cyberSecurityServices } from "@/lib/Data/CyberSecurityServices";
+import { ContactFormValues } from "@/types/inputs";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
+import { cn } from "@/lib/utils"; // Assuming you have a cn utility for tailwind classes
 
-// 📝 Updated FormValues to include new fields
-type FormValues = {
-  name: string;
-  email: string;
-  phone: string; // New: Phone number
-  serviceInterest: string; // New: Service selector
-  subject: string;
-  message: string;
-};
-
-// 💅 Style Improvement: Define shared classes for better maintainability
+// 💅 Style Improvement: Define shared classes
 const inputBaseClass =
-  "w-full rounded-lg p-3 border text-black placeholder-slate-400 rounded-2xl border-2 transition focus:outline-none focus:ring-2 focus:ring-cyan-400";
+  "w-full rounded-2xl p-3 border-2 transition focus:outline-none focus:ring-2 focus:ring-cyan-400 disabled:opacity-50 disabled:bg-slate-100 text-black placeholder-slate-400";
 const inputDefaultClass = `${inputBaseClass} border-blue-950`;
 const inputErrorClass = `${inputBaseClass} border-red-500 focus:ring-red-500`;
 
@@ -24,55 +16,49 @@ export default function ContactForm(): React.ReactElement {
   const {
     register,
     handleSubmit,
+    formState: { isSubmitSuccessful, errors, isSubmitting },
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<FormValues>({
+  } = useForm<ContactFormValues>({
     defaultValues: {
       name: "",
       email: "",
-      phone: "", // Initialize new field
-      serviceInterest: "default", // Initialize new field
+      phone: "",
+      serviceInterest: "default",
       subject: "",
       message: "",
     },
   });
 
-  // UX Improvement: Reset form fields immediately on successful submission
+  // UX: Auto-reset form after a delay following success
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      const timer = setTimeout(() => reset(), 5000);
+      return () => clearTimeout(timer);
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = async (data: FormValues) => {
-    // Security/Data Quality Improvement: Trim whitespace from all string inputs
-    const sanitizedData = {
-      name: data.name.trim(),
-      email: data.email.trim(),
-      phone: data.phone.trim(),
-      serviceInterest: data.serviceInterest.trim(),
-      subject: data.subject.trim(),
-      message: data.message.trim(),
-    };
-
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sanitizedData),
+        body: JSON.stringify(data),
       });
-
-      if (!response.ok) {
-        throw new Error(`Submission failed with status: ${response.status}`);
-      }
+      
+      if (!response.ok) throw new Error("Failed to send inquiry");
     } catch (error) {
-      console.error("Send email failed", error);
+      console.error(error);
+      alert("Submission failed. Please try again later.");
     }
+  };
+
+  const onError = (errors: FieldErrors<ContactFormValues>) => {
+    console.log("Validation Errors:", errors);
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, onError)}
       aria-busy={isSubmitting}
       noValidate
       className="space-y-6"
@@ -81,168 +67,106 @@ export default function ContactForm(): React.ReactElement {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <input
-            id="name"
-            {...register("name", {
-              required: "Name is required",
-              maxLength: { value: 100, message: "Name is too long" },
-            })}
-            aria-invalid={errors.name ? "true" : "false"}
-            aria-describedby={errors.name ? "name-error" : undefined}
+            {...register("name", { required: "Name is required" })}
             type="text"
             placeholder="Your Name"
             className={errors.name ? inputErrorClass : inputDefaultClass}
-            disabled={isSubmitting || isSubmitSuccessful}
+            disabled={isSubmitting}
           />
-          {errors.name && (
-            <p id="name-error" className="mt-1 text-sm text-red-400" role="alert">
-              {errors.name.message}
-            </p>
-          )}
+          {errors.name && <p className="mt-1 text-sm text-red-400" role="alert">{errors.name.message}</p>}
         </div>
 
         <div>
           <input
-            id="email"
             {...register("email", {
               required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Enter a valid email address",
-              },
+              pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" },
             })}
-            aria-invalid={errors.email ? "true" : "false"}
-            aria-describedby={errors.email ? "email-error" : undefined}
             type="email"
             placeholder="domain@example.com"
             className={errors.email ? inputErrorClass : inputDefaultClass}
-            disabled={isSubmitting || isSubmitSuccessful}
+            disabled={isSubmitting}
           />
-          {errors.email && (
-            <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
-              {errors.email.message}
-            </p>
-          )}
+          {errors.email && <p className="mt-1 text-sm text-red-400" role="alert">{errors.email.message}</p>}
         </div>
       </div>
 
-      {/* NEW: Phone Number + Service Interest (Select) */}
+      {/* Phone + Service Interest */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <input
-            id="phone"
-            {...register("phone", {
-              required: "Phone number is required for follow-up",
-              pattern: {
-                value: /^[0-9\s-()+]{7,20}$/, // Basic phone number regex
-                message: "Please enter a valid phone number",
-              },
-            })}
-            aria-invalid={errors.phone ? "true" : "false"}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
+            {...register("phone", { required: "Phone is required" })}
             type="tel"
-            placeholder="Contact Phone (e.g., +1 555-1234)"
+            placeholder="Contact Phone"
             className={errors.phone ? inputErrorClass : inputDefaultClass}
-            disabled={isSubmitting || isSubmitSuccessful}
+            disabled={isSubmitting}
           />
-          {errors.phone && (
-            <p id="phone-error" className="mt-1 text-sm text-red-400" role="alert">
-              {errors.phone.message}
-            </p>
-          )}
+          {errors.phone && <p className="mt-1 text-sm text-red-400" role="alert">{errors.phone.message}</p>}
         </div>
 
         <div>
           <select
-            id="serviceInterest"
-            {...register("serviceInterest", {
-              validate: (value) =>
-                value !== "default" || "Please select a service interest",
-            })}
-            aria-invalid={errors.serviceInterest ? "true" : "false"}
-            aria-describedby={
-              errors.serviceInterest ? "service-error" : undefined
-            }
-            className={
-              errors.serviceInterest ? inputErrorClass : inputDefaultClass
-            }
-            disabled={isSubmitting || isSubmitSuccessful}
+            {...register("serviceInterest", { validate: (v) => v !== "default" || "Required" })}
+            className={errors.serviceInterest ? inputErrorClass : inputDefaultClass}
+            disabled={isSubmitting}
           >
-            <option value="default" disabled>
-              Select Service Interest
-            </option>
+            <option value="default" disabled>Select Service Interest</option>
             {cyberSecurityServices.map((service, i) => (
-              <option key={i} value={service.name}>
-                {service.name}
-              </option>
+              <option key={i} value={service.name}>{service.name}</option>
             ))}
           </select>
-          {errors.serviceInterest && (
-            <p id="service-error" className="mt-1 text-sm text-red-400" role="alert">
-              {errors.serviceInterest.message}
-            </p>
-          )}
+          {errors.serviceInterest && <p className="mt-1 text-sm text-red-400" role="alert">{errors.serviceInterest.message}</p>}
         </div>
       </div>
 
       {/* Subject */}
       <div>
         <input
-          id="subject"
-          {...register("subject", {
-            required: "Subject is required",
-            maxLength: { value: 150, message: "Subject is too long" },
-          })}
-          aria-invalid={errors.subject ? "true" : "false"}
-          aria-describedby={errors.subject ? "subject-error" : undefined}
-          type="text"
+          {...register("subject", { required: "Subject is required" })}
           placeholder="Your Subject"
           className={errors.subject ? inputErrorClass : inputDefaultClass}
-          disabled={isSubmitting || isSubmitSuccessful}
+          disabled={isSubmitting}
         />
-        {errors.subject && (
-          <p id="subject-error" className="mt-1 text-sm text-red-400" role="alert">
-            {errors.subject.message}
-          </p>
-        )}
+        {errors.subject && <p className="mt-1 text-sm text-red-400">{errors.subject.message}</p>}
       </div>
 
       {/* Message */}
-      <div>
-        <textarea
-          id="message"
-          {...register("message", {
-            required: "Message is required",
-            minLength: { value: 10, message: "Message is too short" },
-            maxLength: { value: 5000, message: "Message is too long" },
-          })}
-          aria-invalid={errors.message ? "true" : "false"}
-          aria-describedby={errors.message ? "message-error" : undefined}
-          placeholder="Please describe your security requirements or specific challenge"
-          rows={6}
-          className={errors.message ? inputErrorClass : inputDefaultClass}
-          disabled={isSubmitting || isSubmitSuccessful}
-        />
-        {errors.message && (
-          <p id="message-error" className="mt-1 text-sm text-red-400" role="alert">
-            {errors.message.message}
-          </p>
-        )}
-      </div>
+      <textarea
+        {...register("message", { required: "Message is required" })}
+        placeholder="Please describe your security requirements"
+        rows={5}
+        className={errors.message ? inputErrorClass : inputDefaultClass}
+        disabled={isSubmitting}
+      />
 
-      {/* Actions */}
+      {/* ACTIONS */}
       <div className="flex flex-col items-center">
         <button
           type="submit"
           disabled={isSubmitting || isSubmitSuccessful}
-          className="btnPrimary"
+          className={cn(
+            "w-full py-3 rounded-2xl font-bold transition flex justify-center items-center gap-2",
+            isSubmitting 
+              ? "bg-slate-400 cursor-wait text-white" 
+              : "bg-blue-900 text-white hover:bg-blue-800"
+          )}
         >
-          {isSubmitting ? "Sending Secure Inquiry..." : "Send message"}
+          {isSubmitting ? (
+            <>
+              {/* Spinner */}
+              <span className="animate-spin border-2 border-white border-t-transparent rounded-full h-5 w-5"></span>
+              Sending Secure Inquiry...
+            </>
+          ) : (
+            "Send Message"
+          )}
         </button>
 
+        {/* SUCCESS MESSAGE */}
         {isSubmitSuccessful && (
-          <p className="mt-3 text-sm text-emerald-400" role="status">
-            Thank you — your secure inquiry was sent. We will reply shortly.
-          </p>
+          <div className="mt-4 p-4 bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 rounded-xl text-center w-full animate-in fade-in slide-in-from-top-2 duration-300">
+            <span className="font-bold">✓ Success!</span> Your inquiry has been sent securely. We will contact you soon.
+          </div>
         )}
       </div>
     </form>

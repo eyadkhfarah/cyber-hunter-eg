@@ -1,83 +1,65 @@
 "use client";
 
-import {
-  AcademyCoursesBlue,
-  AcademyCoursesRed,
-} from "@/lib/Data/AcademyCourses";
-import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { AcademyCoursesBlue, AcademyCoursesRed } from "@/lib/Data/AcademyCourses";
+import { cn } from "@/lib/utils";
+import { AcademyFormValues } from "@/types/inputs";
 
-// Define the shape of your form data
-type FormValues = {
-  name: string;
-  email: string;
-  number: string;
-  governate: string;
-  // Use union for predefined values
-  team: "blue" | "red" | "default";
-  courses: string;
-  message: string;
-};
-
-// Define the component props
 type FormProps = {
   className?: string;
 };
 
-// Base class for inputs (for consistency)
 const inputClass =
-  "w-full rounded-lg p-3 border text-black placeholder-slate-400 rounded-2xl border-2 border-blue-950 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition";
+  "w-full rounded-2xl p-3 border-2 border-blue-950 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition disabled:opacity-50 disabled:bg-slate-100";
 
-// Class for inputs with validation errors (uses cn for clean override)
-const errorInputClass = cn(
-  inputClass,
-  "border-red-500 focus:ring-red-500 focus:border-red-500"
-);
+const errorInputClass = "border-red-500 focus:ring-red-500 focus:border-red-500";
 
-export default function EmailForm({ className }: FormProps): React.ReactElement {
+export default function EmailForm({ className }: FormProps) {
   const {
     register,
     handleSubmit,
     reset,
-    watch, // <-- Add watch here
-    setValue, // <-- Add setValue here
+    watch,
+    setValue,
     formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<FormValues>({
+  } = useForm<AcademyFormValues>({
     defaultValues: {
       name: "",
       email: "",
       number: "",
-      governate: "",
+      governorate: "",
       team: "default",
       courses: "default",
       message: "",
     },
   });
 
-  // Watch the 'team' field
-  const selectedTeam = watch("team");
+  // 1. WATCH the team value (removes the need for useState and fixes VS Code warnings)
+  const watchedTeam = watch("team");
 
-  // Effect to reset the form upon successful submission
+  // 2. DERIVE the course list directly from the watched value
+  const coursesToShow =
+    watchedTeam === "Blue Team"
+      ? AcademyCoursesBlue
+      : watchedTeam === "Red Team"
+      ? AcademyCoursesRed
+      : [];
+
+  // 3. SUCCESS STATE: Reset form after success
   useEffect(() => {
     if (isSubmitSuccessful) {
-      const timeout = setTimeout(() => {
-        reset();
-      }, 3000);
-
-      return () => clearTimeout(timeout);
+      const timer = setTimeout(() => reset(), 5000); // Reset after 5 seconds
+      return () => clearTimeout(timer);
     }
   }, [isSubmitSuccessful, reset]);
 
-  // Effect to handle course selection change when team changes
+  // 4. LOGIC: Reset course selection if the team changes
   useEffect(() => {
-    // 1. Reset the 'courses' field value
     setValue("courses", "default");
-    // 2. Optionally, trigger validation for 'courses' to clear any previous error
-    // trigger("courses"); // Uncomment if you want immediate validation feedback
-  }, [selectedTeam, setValue]); // Re-run whenever selectedTeam changes
+  }, [watchedTeam, setValue]);
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit: SubmitHandler<AcademyFormValues> = async (data) => {
     try {
       const response = await fetch("/api/academy-register", {
         method: "POST",
@@ -85,216 +67,122 @@ export default function EmailForm({ className }: FormProps): React.ReactElement 
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error("Failed to submit");
     } catch (error) {
-      console.error("Send email failed", error);
+      console.error("Submission Error:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
-
-  // Determine which course list to display
-  const coursesToShow =
-    selectedTeam === "blue"
-      ? AcademyCoursesBlue
-      : selectedTeam === "red"
-      ? AcademyCoursesRed
-      : []; // Empty array if 'default' is selected
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      aria-busy={isSubmitting}
-      noValidate
       className={cn("space-y-6 w-full", className)}
     >
-      {/* Name + Phone Number */}
+      {/* Name + Phone */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <input
-            id="name"
-            {...register("name", {
-              required: "Name is required",
-              maxLength: { value: 100, message: "Name is too long" },
-            })}
-            aria-invalid={errors.name ? "true" : "false"}
-            type="text"
-            disabled={isSubmitSuccessful || isSubmitting}
+            {...register("name", { required: "Name is required" })}
             placeholder="Your Name"
-            className={errors.name ? errorInputClass : inputClass}
+            disabled={isSubmitting}
+            className={cn(inputClass, errors.name && errorInputClass)}
           />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.name.message}
-            </p>
-          )}
+          {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
         </div>
         <div>
           <input
-            id="number"
-            {...register("number", {
-              required: "Your phone number is required",
-              minLength: { value: 11, message: "Number must be 11 digits" },
-              pattern: {
-                value: /^(01)[0-9]{9}$/,
-                message: "Invalid phone number format (must be 11 digits)",
-              },
+            {...register("number", { 
+                required: "Phone is required",
+                pattern: { value: /^(01)[0-9]{9}$/, message: "Must be 11 digits" } 
             })}
-            aria-invalid={errors.number ? "true" : "false"}
-            type="tel"
-            disabled={isSubmitSuccessful || isSubmitting}
-            placeholder="Your Phone Number (WhatsApp Prefer)"
-            className={errors.number ? errorInputClass : inputClass}
+            placeholder="Phone Number"
+            disabled={isSubmitting}
+            className={cn(inputClass, errors.number && errorInputClass)}
           />
-          {errors.number && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.number.message}
-            </p>
-          )}
+          {errors.number && <p className="text-red-400 text-sm mt-1">{errors.number.message}</p>}
         </div>
       </div>
 
-      {/* Email + Governate */}
+      {/* Email + Governorate */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <input
-            id="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^\S+@\S+\.\S+$/,
-                message: "Invalid email address",
-              },
-            })}
-            aria-invalid={errors.email ? "true" : "false"}
+            {...register("email", { required: "Email is required" })}
             type="email"
-            disabled={isSubmitSuccessful || isSubmitting}
-            placeholder="Your Email"
-            className={errors.email ? errorInputClass : inputClass}
+            placeholder="Email"
+            disabled={isSubmitting}
+            className={cn(inputClass, errors.email && errorInputClass)}
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.email.message}
-            </p>
-          )}
         </div>
-
         <div>
           <input
-            id="governate"
-            {...register("governate", {
-              required: "Governate is required",
-            })}
-            aria-invalid={errors.governate ? "true" : "false"}
-            type="text"
-            disabled={isSubmitSuccessful || isSubmitting}
-            placeholder="Governate"
-            className={errors.governate ? errorInputClass : inputClass}
+            {...register("governorate", { required: "Required" })}
+            placeholder="Governorate"
+            disabled={isSubmitting}
+            className={cn(inputClass, errors.governorate && errorInputClass)}
           />
-          {errors.governate && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.governate.message}
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Team + Courses */}
+      {/* Team + Course Selection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="">
-          <select
-            id="team"
-            disabled={isSubmitSuccessful || isSubmitting}
-            aria-invalid={errors.team ? "true" : "false"}
-            {...register("team", {
-              validate: (value) =>
-                value !== "default" || "Select Your Team",
-            })}
-            className={errors.team ? errorInputClass : inputClass}
-          >
-            <option value="default">Select Team</option>
-            <option value="blue">Blue Team</option>
-            <option value="red">Red Team</option>
-          </select>
-          {errors.team && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.team.message}
-            </p>
-          )}
-        </div>
+        <select
+          {...register("team", { validate: (v) => v !== "default" || "Select a team" })}
+          disabled={isSubmitting}
+          className={cn(inputClass, errors.team && errorInputClass)}
+        >
+          <option value="default">Select Team</option>
+          <option value="Blue Team">Blue Team</option>
+          <option value="Red Team">Red Team</option>
+        </select>
 
-        {/* Courses */}
-        <div className="">
-          <select
-            id="courses"
-            disabled={isSubmitSuccessful || isSubmitting}
-            aria-invalid={errors.courses ? "true" : "false"}
-            {...register("courses", {
-              validate: (value) =>
-                value !== "default" || "Select the course you want",
-            })}
-            className={errors.courses ? errorInputClass : inputClass}
-          >
-            <option value="default">
-              {/* Change prompt based on selection */}
-              {selectedTeam === 'default' ? "Select Course" : `Select ${selectedTeam.charAt(0).toUpperCase() + selectedTeam.slice(1)} Course`}
-            </option>
-            {/* CONDITIONAL RENDERING: Display only courses for the selected team */}
-            {coursesToShow.map((course) => (
-              <option value={course.title} key={`${selectedTeam}-${course.title}`}>
-                {course.title}
-              </option>
-            ))}
-            {/* Show a placeholder if a team hasn't been selected */}
-            {selectedTeam === 'default' && (
-                <option value="" disabled>First, select a team above</option>
-            )}
-          </select>
-
-          {errors.courses && (
-            <p className="mt-1 text-sm text-red-400" role="alert">
-              {errors.courses.message}
-            </p>
-          )}
-        </div>
+        <select
+          {...register("courses", { validate: (v) => v !== "default" || "Select a course" })}
+          disabled={isSubmitting || watchedTeam === "default"}
+          className={cn(inputClass, errors.courses && errorInputClass)}
+        >
+          <option value="default">Select Course</option>
+          {coursesToShow.map((course) => (
+            <option key={course.title} value={course.title}>{course.title}</option>
+          ))}
+        </select>
       </div>
 
       {/* Message */}
-      <div>
-        <textarea
-          id="message"
-          {...register("message", {
-            required: "Message is required",
-            minLength: { value: 10, message: "Message is too short" },
-            maxLength: { value: 5000, message: "Message is too long" },
-          })}
-          aria-invalid={errors.message ? "true" : "false"}
-          placeholder="Your Message"
-          disabled={isSubmitSuccessful || isSubmitting}
-          rows={6}
-          className={errors.message ? errorInputClass : inputClass}
-        />
-        {errors.message && (
-          <p className="mt-1 text-sm text-red-400" role="alert">
-            {errors.message.message}
-          </p>
-        )}
-      </div>
+      <textarea
+        {...register("message", { required: "Required" })}
+        placeholder="Your Message"
+        disabled={isSubmitting}
+        rows={4}
+        className={cn(inputClass, errors.message && errorInputClass)}
+      />
 
-      {/* Actions */}
+      {/* SUBMIT BUTTON (Loading State) */}
       <div className="flex flex-col items-center">
         <button
           type="submit"
-          disabled={isSubmitting || isSubmitSuccessful}
-          className="w-full btnPrimary"
+          disabled={isSubmitting}
+          className={cn(
+            "w-full py-3 rounded-2xl font-bold transition flex justify-center items-center gap-2",
+            isSubmitting ? "bg-slate-400 text-white cursor-not-allowed" : "bg-blue-900 text-white hover:bg-blue-800"
+          )}
         >
-          {isSubmitting ? "Sending..." : "Register the course"}
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin border-2 border-white border-t-transparent rounded-full h-5 w-5"></span>
+              Sending...
+            </>
+          ) : (
+            "Register Now"
+          )}
         </button>
 
+        {/* SUCCESS MESSAGE */}
         {isSubmitSuccessful && (
-          <p className="mt-3 text-sm text-emerald-400" role="status">
-            Thank you — your registration was sent. We will reply shortly.
-          </p>
+          <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-400 rounded-xl text-center w-full">
+            ✓ Registration successful! We&apos;ll contact you soon.
+          </div>
         )}
       </div>
     </form>

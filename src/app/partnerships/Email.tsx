@@ -1,17 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-
-type FormValues = {
-  company: string;
-  email: string;
-  message: string;
-};
+import { PartnerFormValues } from "@/types/inputs";
+import { useForm, SubmitHandler, FieldErrors } from "react-hook-form";
 
 // Define shared input styles to avoid repetition and improve maintainability
 const inputBaseClass =
-  "w-full p-3 rounded-2xl border-2 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500";
+  "w-full p-3 rounded-2xl border-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500";
 const inputDefaultClass = `${inputBaseClass} border-blue-950`;
 const inputErrorClass = `${inputBaseClass} border-red-500`;
 
@@ -19,51 +13,36 @@ export default function Email() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors, isSubmitting },
     reset,
-  } = useForm<FormValues>({
+  } = useForm<PartnerFormValues>({
     defaultValues: { company: "", email: "", message: "" },
   });
 
-  // Reruns when submission success changes to reset the form.
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset();
-    }
-  }, [isSubmitSuccessful, reset]);
-
-  async function onSubmit(data: FormValues) {
-    // 🧼 The sanitization step: cleaning input data
-    const sanitizedData = {
-      company: data.company.trim(),
-      email: data.email.trim(),
-      message: data.message.trim(),
-    };
-
+  const onSubmit: SubmitHandler<PartnerFormValues> = async (data) => {
     try {
-      // Simulate network latency (600ms)
-      await new Promise((r) => setTimeout(r, 600));
-
-      // 🎯 FIX: USE the sanitizedData object in the submission process
-      // If this were a real API call, it would look like this:
-      /*
-      await fetch("/api/cyber-partnership", {
+      await fetch("/api/partner", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sanitizedData), // <-- Now using sanitizedData
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-      */
-      console.log("Submitting sanitized data:", sanitizedData);
-
-    } catch (err) {
-      console.error("Partnership submission failed:", err);
+      // Optionally reset the form after a successful submission
+      reset();
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
+
+  const onError = (errors: FieldErrors<PartnerFormValues>) => {
+    console.log("Please fix these errors:", errors);
+  };
 
   return (
     <form
       className="space-y-4"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit, onError)}
       aria-busy={isSubmitting}
       noValidate
     >
@@ -83,7 +62,11 @@ export default function Email() {
             className={errors.company ? inputErrorClass : inputDefaultClass}
           />
           {errors.company && (
-            <p id="company-error" className="mt-1 text-sm text-red-400" role="alert">
+            <p
+              id="company-error"
+              className="mt-1 text-sm text-red-400"
+              role="alert"
+            >
               {errors.company.message}
             </p>
           )}
@@ -108,7 +91,11 @@ export default function Email() {
             className={errors.email ? inputErrorClass : inputDefaultClass}
           />
           {errors.email && (
-            <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+            <p
+              id="email-error"
+              className="mt-1 text-sm text-red-400"
+              role="alert"
+            >
               {errors.email.message}
             </p>
           )}
@@ -120,7 +107,10 @@ export default function Email() {
           id="message"
           {...register("message", {
             required: "Please detail your interest in the partnership",
-            minLength: { value: 20, message: "Message must be at least 20 characters" },
+            minLength: {
+              value: 20,
+              message: "Message must be at least 20 characters",
+            },
           })}
           aria-label="Brief message detailing partnership interest"
           aria-invalid={errors.message ? "true" : "false"}
@@ -131,7 +121,11 @@ export default function Email() {
           className={errors.message ? inputErrorClass : inputDefaultClass}
         />
         {errors.message && (
-          <p id="message-error" className="mt-1 text-sm text-red-400" role="alert">
+          <p
+            id="message-error"
+            className="mt-1 text-sm text-red-400"
+            role="alert"
+          >
             {errors.message.message}
           </p>
         )}
@@ -144,13 +138,16 @@ export default function Email() {
             disabled={isSubmitting || isSubmitSuccessful}
             className="btnPrimary"
           >
-            {isSubmitting ? "Sending Securely…" : "Express Partnership Interest"}
+            {isSubmitting
+              ? "Sending Securely…"
+              : "Express Partnership Interest"}
           </button>
         </div>
 
         {isSubmitSuccessful && (
           <p className="mt-3 text-sm text-emerald-400" role="status">
-            Thanks — we received your interest and a member of our partnership security team will be in touch shortly.
+            Thanks — we received your interest and a member of our partnership
+            security team will be in touch shortly.
           </p>
         )}
       </div>

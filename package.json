@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@notion-render/bookmark-plugin": "^0.0.2",
+    "@notion-render/client": "^0.0.2",
+    "@notion-render/hljs-plugin": "^0.0.2",
+    "@notionhq/client": "^5.6.0",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.19",
     "clsx": "^2.1.1",
@@ -16,6 +20,7 @@
     "lucide-react": "^0.553.0",
     "motion": "^12.23.24",
     "next": "16.0.10",
+    "notion-api-worker": "^0.1.0",
     "path-browserify": "^1.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
