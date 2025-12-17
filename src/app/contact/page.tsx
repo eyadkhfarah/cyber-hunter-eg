@@ -16,7 +16,7 @@ export default function ContactPage() {
   const social = SocialLink;
 
   return (
-    <main className="container mx-auto lg:px-24 py-16">
+    <main className="container mx-auto lg:px-24 md:-px-0 px-6 py-16">
       <header className="max-w-3xl mx-auto text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
         <p className="text-lg text-slate-600">

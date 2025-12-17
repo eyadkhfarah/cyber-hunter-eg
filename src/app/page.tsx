@@ -81,7 +81,7 @@ const AcademyCoursesSection: React.FC = () => {
               <p className="text-gray-600 mb-6 leading-relaxed">
                 {AcademyCoursesBlue[0].description}
               </p>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+              <div className="lg:flex grid gap-4 items-center justify-between pt-4 border-t border-gray-200">
                 <div>
                   <p className="text-xs text-gray-500 uppercase tracking-wide">
                     Duration

@@ -164,7 +164,7 @@ export default function EmailForm({ className }: FormProps) {
           type="submit"
           disabled={isSubmitting}
           className={cn(
-            "w-full py-3 rounded-2xl font-bold transition flex justify-center items-center gap-2",
+            "btnPrimary w-full",
             isSubmitting ? "bg-slate-400 text-white cursor-not-allowed" : "bg-blue-900 text-white hover:bg-blue-800"
           )}
         >

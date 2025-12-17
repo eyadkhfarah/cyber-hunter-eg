@@ -145,10 +145,10 @@ export default function ContactForm(): React.ReactElement {
           type="submit"
           disabled={isSubmitting || isSubmitSuccessful}
           className={cn(
-            "w-full py-3 rounded-2xl font-bold transition flex justify-center items-center gap-2",
+            "w-full btnPrimary transition flex justify-center items-center gap-2",
             isSubmitting 
               ? "bg-slate-400 cursor-wait text-white" 
-              : "bg-blue-900 text-white hover:bg-blue-800"
+              : ""
           )}
         >
           {isSubmitting ? (
