@@ -4,7 +4,7 @@ interface ProcessEnv {
   NOTION_CONTACT_API_KEY: string;
   NOTION_PARTNER_API_KEY: string;
   NOTION_ACADEMY_API_KEY: string;
-  YOUR_NOTION_BLOG_API_KEY: string;
+  NOTION_BLOG_API_KEY: string;
 
   NOTION_CONTACT_DATABASE_ID: string;
   NOTION_PARTNER_DATABASE_ID: string;

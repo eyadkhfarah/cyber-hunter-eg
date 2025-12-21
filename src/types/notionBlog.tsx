@@ -46,7 +46,7 @@ export type NotionBlogPage = {
         plain_text: string;
       }>;
     };
-    Summary: {
+    Subtitle: {
       rich_text: Array<{
         plain_text: string;
       }>;
@@ -64,10 +64,16 @@ export type NotionBlogPage = {
     Publication: { date: { start: string } };
     Thumbnail: {
       files: Array<{
+        file: {
+          url: string;
+        };
         name: string;
       }>;
     };
     Author: {
+      rich_text: Array<{
+        plain_text: string;
+      }>;
       select: {
         name: string;
       };
@@ -81,6 +87,7 @@ export type NotionBlogPage = {
 };
 
 export interface BlogPost {
+  last_edited_time: string;
   id: string;
   properties: {
     Name: {
@@ -88,9 +95,14 @@ export interface BlogPost {
         plain_text: string;
       }[];
     };
-    Summary: {
+    Subtitle: {
       rich_text: Array<{
         plain_text: string;
+      }>;
+    };
+    Tags: {
+      multi_select: Array<{
+        name: Array<string>;
       }>;
     };
     Thumbnail: {

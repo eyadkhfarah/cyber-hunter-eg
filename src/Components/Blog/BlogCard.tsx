@@ -1,25 +1,19 @@
+import { renderNotionContent } from "@/lib/Article/renderNotionContent";
+import { notionBlog } from "@/lib/notion";
+import { BlogPost } from "@/types/notionBlog";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-// import readingTime from "reading-time";
+import readingTime from "reading-time";
 
 // Assuming you have a utility function like 'cn' for combining classes,
 // if not, you'd define a helper or use template literals.
 
 // --- Type Definitions ---
 
-// Updated BlogType to be cleaner
-type Blog = {
-  title: string;
-  description: string;
-  category: string;
-  link: string;
-  imageUrl?: string; // Added optional image URL for modern cards
-};
-
-// Define the component props, including an optional loading state
 type BlogCardProps = {
-  blog?: Blog;
+  articles?: BlogPost;
+  index?: number;
   isLoading?: boolean;
 };
 
@@ -53,20 +47,47 @@ export function BlogCardLoader() {
 
 // --- Main Component ---
 
-export default function BlogCard({ blog, isLoading }: BlogCardProps) {
-  // const { text } = readingTime(blog);
-
+export default async function BlogCard({ articles, isLoading }: BlogCardProps) {
   // If loading, render the dedicated loader component
-  if (isLoading || !blog) {
+  if (isLoading || !articles) {
     return <BlogCardLoader />;
   }
 
-  // Use the blog data if not loading
-  const { title, description, category, link, imageUrl } = blog;
+  const blocks = await notionBlog.blocks.children.list({
+    block_id: articles.id,
+  });
+
+  const plainText = await renderNotionContent(blocks.results);
+  const { minutes } = readingTime(plainText);
+
+  // ✅ Extract Notion data with fallbacks
+  const title =
+    articles.properties.Name?.title?.[0]?.plain_text?.trim() || "Untitled Post";
+  const description =
+    articles.properties.Subtitle?.rich_text?.[0]?.plain_text?.trim() ||
+    "Read this article to learn more.";
+  const category =
+    articles.properties.Category?.select?.name || "Uncategorized";
+  // const date = articles.properties.Publication?.date?.start
+  //   ? new Date(articles.properties.Publication.date.start).toLocaleDateString(
+  //       "ar-EG",
+  //       {
+  //         year: "numeric",
+  //         month: "long",
+  //         day: "numeric",
+  //       }
+  //     )
+  //   : "Unknown Date";
+
+  const imageUrl = articles.properties.Thumbnail?.files?.[0]?.name
+    ? articles.properties.Thumbnail.files[0].name
+    : "/default-thumbnail.jpg";
 
   return (
     <Link
-      href={`/blog/${link}`}
+      href={`/blog/${
+        articles.properties.Slug?.rich_text?.[0]?.plain_text || 0
+      }`}
       className="group block w-full bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 border border-gray-100"
     >
       {/* 🖼️ Image Placeholder/Actual Image */}
@@ -97,11 +118,11 @@ export default function BlogCard({ blog, isLoading }: BlogCardProps) {
 
           <span className="text-slate-500 gap-2 flex text-sm items-center">
             <Clock className="w-4 h-4" />
-            1.5 min
+            { minutes } min
           </span>
         </div>
         {/* Title */}
-        <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition duration-300">
+        <h2 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-blue-700 transition duration-300">
           {title}
         </h2>
 

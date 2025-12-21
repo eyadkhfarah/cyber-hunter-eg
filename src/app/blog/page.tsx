@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import BlogCard from "@/Components/Blog/BlogCard";
 import { generateStaticMetadata } from "@/lib/generateStaticMetadata";
 import { Metadata } from "next";
+import { fetchPosts } from "@/lib/Data/notionBlogData";
+import { BlogPost } from "@/types/notionBlog";
 
 export const metadata: Metadata = generateStaticMetadata({
   title: "Blog",
@@ -8,31 +11,22 @@ export const metadata: Metadata = generateStaticMetadata({
   url: "/blog",
 });
 
-const Testing = [
-  {
-    title: "How to secure your web applications",
-    description:
-      "Learn the best practices for securing your web applications against common vulnerabilities and threats.",
-    category: "Web Security",
-    link: "securing-web-applications",
-  },
-  {
-    title: "How to secure your web applications",
-    description:
-      "Learn the best practices for securing your web applications against common vulnerabilities and threats.",
-    category: "Web Security",
-    link: "securing-web-applications",
-  },
-  {
-    title: "How to secure your web applications",
-    description:
-      "Learn the best practices for securing your web applications against common vulnerabilities and threats.",
-    category: "Web Security",
-    link: "securing-web-applications",
-  },
-];
+// type NotionPost = any;
 
-export default function page() {
+// Revalidate this page every 1 second
+export const revalidate = 1;
+
+// const siteUrl = process.env.NEXT_PUBLIC_DOMAIN_URL || "http://localhost:3000";
+
+export default async function page({
+}: {
+  articles: BlogPost[];
+  pageParam: string | null;
+}) {
+
+  const posts = await fetchPosts();
+  // const articles = Array.isArray(posts?.results) ? posts.results : [];
+  
   return (
     <main className="container mx-auto md:px-24 px-6 py-16">
       <header className="max-w-3xl mx-auto text-center mb-12">
@@ -47,8 +41,8 @@ export default function page() {
 
       <section>
         <div className="w-full lg:grid-cols-3 grid gap-5">
-          {Testing.map((blog, i) => (
-            <BlogCard key={i} blog={blog} />
+          {posts.map((blog: any, i) => (
+            <BlogCard key={i} articles={blog} />
           ))}
         </div>
       </section>
