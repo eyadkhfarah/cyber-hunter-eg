@@ -25,7 +25,12 @@ export default async function page({
 }) {
 
   const posts = await fetchPosts();
-  // const articles = Array.isArray(posts?.results) ? posts.results : [];
+  // Normalize posts: accept either an array or an object with `results`.
+  const postsList: any[] = Array.isArray(posts)
+    ? posts
+    : Array.isArray((posts as any)?.results)
+    ? (posts as any).results
+    : [];
   
   return (
     <main className="container mx-auto md:px-24 px-6 py-16">
@@ -40,11 +45,17 @@ export default async function page({
       </header>
 
       <section>
-        <div className="w-full lg:grid-cols-3 grid gap-5">
-          {posts.map((blog: any, i) => (
-            <BlogCard key={i} articles={blog} />
-          ))}
-        </div>
+        {postsList.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-lg text-primary font-bold">No articles found. Please check back later.</p>
+          </div>
+        ) : (
+          <div className="w-full lg:grid-cols-3 grid gap-5">
+            {postsList.map((blog: any, i) => (
+              <BlogCard key={i} articles={blog} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
