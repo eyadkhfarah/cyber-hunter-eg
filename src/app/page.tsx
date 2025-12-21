@@ -257,7 +257,7 @@ export default function Home() {
           </div>
 
           {/* Bento Grid Container */}
-          <div className="relative group lg:px-24 px-6">
+          <div className="relative group lg:px-24">
             {/* Subtle corner accents around the grid */}
             <div className="absolute -top-4 -left-4 w-8 h-8 border-t border-l border-blue-200" />
             <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b border-r border-blue-200" />
@@ -267,7 +267,7 @@ export default function Home() {
 
           {/* Bottom Status Label */}
           <div className="mt-16 flex justify-center">
-            <div className="font-mono text-[9px] text-slate-400 uppercase tracking-widest bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
+            <div className="font-mono text-[9px] text-slate-400 uppercase tracking-widest px-4 py-2 rounded-full border border-slate-100">
               System_Load: Optimal // Framework: NIST_800-53
             </div>
           </div>
