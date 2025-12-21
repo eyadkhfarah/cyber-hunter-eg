@@ -112,7 +112,7 @@ export default async function BlogCard({ articles, isLoading }: BlogCardProps) {
       <div className="p-5 grid gap-3">
         {/* Category Tag */}
         <div className="flex justify-between items-center">
-          <span className="text-xs w-fit font-semibold uppercase text-blue-600 tracking-wider bg-blue-50 py-1 px-3 rounded-full self-start">
+          <span className="text-xs w-fit font-bold uppercase text-blue-600 tracking-wider bg-blue-50 py-1 px-3 rounded-full self-start">
             {category}
           </span>
 

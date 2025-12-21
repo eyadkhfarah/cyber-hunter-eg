@@ -49,3 +49,10 @@ export interface EncryptedTextProps {
     text: string;
     revealedClassName: string;
 }
+
+export interface CourseDetailProps {
+    title: string;
+    description: string;
+    duration: string;
+    focus: string;
+}

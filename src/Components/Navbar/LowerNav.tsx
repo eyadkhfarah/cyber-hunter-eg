@@ -6,6 +6,8 @@ import { NavLinks } from "@/lib/NavList";
 import Image from "next/image";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
+import { cn } from "@/lib/utils";
+import { Terminal } from "lucide-react";
 
 interface HamburgerMenuProps {
   open: boolean;
@@ -14,25 +16,31 @@ interface HamburgerMenuProps {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ open, setOpen }) => {
   return (
-    <div className="lg:hidden relative mb-2">
-      {/* Hamburger Icon */}
+    <div className="lg:hidden relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex flex-col justify-center space-y-2 z-50 items-center w-10 h-10 focus:outline-none cursor-pointer`}
+        className="group flex flex-col justify-center space-y-1.5 z-50 items-center w-10 h-10 focus:outline-none cursor-pointer"
+        aria-label="Toggle Menu"
       >
         <span
-          className={`block w-6 h-0.5 bg-dark dark:bg-white transition-transform duration-300 ease-in-out ${
-            open ? "rotate-45 translate-y-[5px]" : ""
-          }`}
+          className={cn(
+            "block h-0.5 bg-white transition-all duration-300 ease-in-out",
+            open ? "w-6 rotate-45 translate-y-1" : "w-6"
+          )}
         ></span>
         <span
-          className={`block w-6 h-0.5 bg-dark dark:bg-white transition-transform duration-300 ease-in-out ${
-            open ? "-rotate-45 -translate-y-[5px]" : ""
-          }`}
+          className={cn(
+            "block h-0.5 bg-white transition-all duration-300 ease-in-out",
+            open ? "w-0 opacity-0" : "w-4 self-end group-hover:w-6"
+          )}
+        ></span>
+        <span
+          className={cn(
+            "block h-0.5 bg-white transition-all duration-300 ease-in-out",
+            open ? "w-6 -rotate-45 -translate-y-1" : "w-6"
+          )}
         ></span>
       </button>
-
-      {/* Navigation Menu */}
     </div>
   );
 };
@@ -43,13 +51,11 @@ export default function LowerNav() {
 
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const showBg = scrolled || !isHome;
+  // The navbar turns solid if scrolled OR if we aren't on the homepage
+  const isSolid = scrolled || !isHome;
 
   useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 24);
-    }
-
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -58,50 +64,73 @@ export default function LowerNav() {
   return (
     <>
       <nav
-        className={
-          `${
-            isHome ? "fixed left-0 right-0" : "sticky"
-          } z-40 top-0 w-full py-6 md:px-24 px-6 rounded-b-4xl transition-colors duration-300 ` +
-          (showBg
-            ? "bg-[#0b1220]/95 text-white shadow-md backdrop-blur"
-            : "bg-transparent text-white")
-        }
+        className={cn(
+          "left-0 right-0 z-50 transition-all duration-500",
+          isHome ? "fixed" : "sticky top-0",
+          isSolid 
+            ? "py-3 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-2xl" 
+            : "py-6 bg-transparent"
+        )}
       >
-        <div className="grid lg:grid-cols-3 grid-cols-2 place-items-center max-w-7xl mx-auto">
-          <Link href={"/"} className="place-self-start" aria-label="Cyber Hunter">
-            <Image
-              src={"/Logo White.svg"}
-              alt="Cyber Hunter Logo"
-              width={60}
-              height={60}
-            />
-          </Link>
-
-          <div className="lg:flex hidden place-self-center items-center space-x-9">
-            {NavLinks.map((nav, i) => (
-              <Link
-                key={i}
-                href={nav.link}
-                className="hover:text-blue-600 whitespace-nowrap font-bold transition-all duration-300"
-              >
-                {nav.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-5 place-self-end mb-2">
-            <Link
-              href={"/contact"}
-              className="btnPrimary hidden lg:inline-flex"
-            >
-              Get Started
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex items-center justify-between max-w-7xl mx-auto">
+            
+            {/* LOGO AREA */}
+            <Link href="/" className="relative group" aria-label="Cyber Hunter Home">
+              <div className="absolute -inset-2 bg-blue-600/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Image
+                src="/Logo White.svg"
+                alt="Cyber Hunter"
+                width={50}
+                height={50}
+                className="relative z-10 transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
 
-            <HamburgerMenu open={isOpen} setOpen={setIsOpen} />
+            {/* DESKTOP NAV LINKS */}
+            <div className="hidden lg:flex items-center bg-slate-800/40 border border-white/5 px-8 py-2.5 rounded-full backdrop-blur-sm">
+              <div className="flex items-center space-x-10">
+                {NavLinks.map((nav, i) => {
+                  const isActive = pathname === nav.link;
+                  return (
+                    <Link
+                      key={i}
+                      href={nav.link}
+                      className={cn(
+                        "relative text-[13px] font-bold uppercase tracking-[0.15em] transition-all duration-300",
+                        isActive 
+                          ? "text-blue-400" 
+                          : "text-slate-300 hover:text-white"
+                      )}
+                    >
+                      {nav.name}
+                      {isActive && (
+                        <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-500 rounded-full animate-in fade-in zoom-in duration-300" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ACTION AREA */}
+            <div className="flex items-center gap-6">
+              <Link
+                href="/contact"
+                className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-sm tracking-tight transition-all active:scale-95 shadow-lg shadow-blue-900/20"
+              >
+                <Terminal className="w-4 h-4" />
+                Initialize_Contact
+              </Link>
+
+              <HamburgerMenu open={isOpen} setOpen={setIsOpen} />
+            </div>
+
           </div>
         </div>
       </nav>
 
+      {/* MOBILE OVERLAY */}
       <MobileNav open={isOpen} setOpen={setIsOpen} />
     </>
   );

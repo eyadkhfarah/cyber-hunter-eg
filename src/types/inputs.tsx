@@ -19,7 +19,7 @@ export type AcademyFormValues = {
   number: string;
   governorate: string;
   // Use union for predefined values
-  team: "Blue Team" | "Red Team" | "default";
+  team: "Blue Team" | "Red Team" | "Purple Team" | "default";
   courses: string;
   message: string;
 };

@@ -133,6 +133,9 @@ body {
   p {
     @apply font-regular
   }
+  body {
+    @apply bg-slate-50
+  }
 }
 
 .testimonial-slider {

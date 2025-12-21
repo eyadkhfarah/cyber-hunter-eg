@@ -1,37 +1,37 @@
 import {
   ClipboardCheck,
-  ShieldHalf,
-  Swords,
-  Rocket,
+  BookOpen,
+  Monitor,
+  Search,
 } from "lucide-react";
 
 export const howItWorksData = [
   {
     step: 1,
-    title: "Initial Consultation & Scoping",
+    title: "Cyber Threat Intelligence & Awareness",
     description:
-      "We start with a free call to understand your environment, critical assets, compliance needs, and security objectives.",
+      "Actionable intelligence for security teams and decision makers — in-depth analysis of APTs, industry threats, and IOC packages for faster detection and response.",
     icon: ClipboardCheck,
   },
   {
     step: 2,
-    title: "Threat Modeling & Assessment",
+    title: "Trainings for Individuals",
     description:
-      "Our experts design a custom penetration test plan, replicating real-world attack scenarios relevant to your business profile.",
-    icon: ShieldHalf,
+      "Practical hands-on training covering foundational Blue & Red team concepts, modern tools, and skill development for learners at all levels.",
+    icon: BookOpen,
   },
   {
     step: 3,
-    title: "Execution & Manual Testing",
+    title: "SOC-as-a-Service",
     description:
-      "Our certified ethical hackers perform the assessment, focusing on discovering complex vulnerabilities that automated tools miss.",
-    icon: Swords,
+      "24/7 managed detection and response with continuous monitoring, threat detection, and real-time investigation tailored for SMEs and large enterprises.",
+    icon: Monitor,
   },
   {
     step: 4,
-    title: "Reporting & Remediation Guidance",
+    title: "Penetration Testing & Incident Response",
     description:
-      "You receive a detailed report with prioritized findings, clear severity ratings, and actionable, step-by-step remediation advice.",
-    icon: Rocket,
+      "Comprehensive assessments, controlled exploitation, forensic analysis, and rapid incident response with prioritized remediation guidance.",
+    icon: Search,
   },
 ];

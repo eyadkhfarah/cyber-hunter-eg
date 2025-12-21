@@ -2,18 +2,20 @@
 
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { AcademyCoursesBlue, AcademyCoursesRed } from "@/lib/Data/AcademyCourses";
+import { AcademyCoursesBlue, AcademyCoursesGRC, AcademyCoursesRed } from "@/lib/Data/AcademyCourses";
 import { cn } from "@/lib/utils";
 import { AcademyFormValues } from "@/types/inputs";
+import { Loader2, ShieldCheck, Cpu, Send } from "lucide-react";
 
 type FormProps = {
   className?: string;
 };
 
-const inputClass =
-  "w-full rounded-2xl p-3 border-2 border-blue-950 text-black placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition disabled:opacity-50 disabled:bg-slate-100";
-
-const errorInputClass = "border-red-500 focus:ring-red-500 focus:border-red-500";
+// --- Light-Cyber Design Tokens ---
+const inputBaseClass =
+  "w-full rounded-xl p-4 border transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/10 disabled:opacity-50 disabled:bg-slate-50 text-slate-900 placeholder-slate-400 bg-white";
+const inputDefaultClass = `${inputBaseClass} border-slate-200 hover:border-blue-300`;
+const inputErrorClass = `${inputBaseClass} border-red-500 bg-red-50/30 focus:ring-red-500/10`;
 
 export default function EmailForm({ className }: FormProps) {
   const {
@@ -35,26 +37,24 @@ export default function EmailForm({ className }: FormProps) {
     },
   });
 
-  // 1. WATCH the team value (removes the need for useState and fixes VS Code warnings)
   const watchedTeam = watch("team");
 
-  // 2. DERIVE the course list directly from the watched value
   const coursesToShow =
     watchedTeam === "Blue Team"
       ? AcademyCoursesBlue
       : watchedTeam === "Red Team"
       ? AcademyCoursesRed
+      : watchedTeam === "Purple Team"
+      ? AcademyCoursesGRC
       : [];
 
-  // 3. SUCCESS STATE: Reset form after success
   useEffect(() => {
     if (isSubmitSuccessful) {
-      const timer = setTimeout(() => reset(), 5000); // Reset after 5 seconds
+      const timer = setTimeout(() => reset(), 5000);
       return () => clearTimeout(timer);
     }
   }, [isSubmitSuccessful, reset]);
 
-  // 4. LOGIC: Reset course selection if the team changes
   useEffect(() => {
     setValue("courses", "default");
   }, [watchedTeam, setValue]);
@@ -66,11 +66,9 @@ export default function EmailForm({ className }: FormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) throw new Error("Failed to submit");
     } catch (error) {
       console.error("Submission Error:", error);
-      alert("Something went wrong. Please try again.");
     }
   };
 
@@ -80,108 +78,147 @@ export default function EmailForm({ className }: FormProps) {
       className={cn("space-y-6 w-full", className)}
     >
       {/* Name + Phone */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="relative">
           <input
-            {...register("name", { required: "Name is required" })}
-            placeholder="Your Name"
+            {...register("name", { required: "Identity required" })}
+            placeholder="Full Name"
             disabled={isSubmitting}
-            className={cn(inputClass, errors.name && errorInputClass)}
+            className={errors.name ? inputErrorClass : inputDefaultClass}
           />
-          {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>}
+          {errors.name && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.name.message}</p>}
         </div>
-        <div>
+        <div className="relative">
           <input
             {...register("number", { 
-                required: "Phone is required",
-                pattern: { value: /^(01)[0-9]{9}$/, message: "Must be 11 digits" } 
+                required: "Contact string required",
+                pattern: { value: /^(01)[0-9]{9}$/, message: "Invalid format (11 digits)" } 
             })}
             placeholder="Phone Number"
             disabled={isSubmitting}
-            className={cn(inputClass, errors.number && errorInputClass)}
+            className={errors.number ? inputErrorClass : inputDefaultClass}
           />
-          {errors.number && <p className="text-red-400 text-sm mt-1">{errors.number.message}</p>}
+          {errors.number && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.number.message}</p>}
         </div>
       </div>
 
       {/* Email + Governorate */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="relative">
           <input
-            {...register("email", { required: "Email is required" })}
+            {...register("email", { required: "Endpoint required" })}
             type="email"
-            placeholder="Email"
+            placeholder="Email Address"
             disabled={isSubmitting}
-            className={cn(inputClass, errors.email && errorInputClass)}
+            className={errors.email ? inputErrorClass : inputDefaultClass}
           />
+          {errors.email && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.email.message}</p>}
         </div>
-        <div>
+        <div className="relative">
           <input
-            {...register("governorate", { required: "Required" })}
+            {...register("governorate", { required: "Location required" })}
             placeholder="Governorate"
             disabled={isSubmitting}
-            className={cn(inputClass, errors.governorate && errorInputClass)}
+            className={errors.governorate ? inputErrorClass : inputDefaultClass}
           />
+          {errors.governorate && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.governorate.message}</p>}
         </div>
       </div>
 
       {/* Team + Course Selection */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <select
-          {...register("team", { validate: (v) => v !== "default" || "Select a team" })}
-          disabled={isSubmitting}
-          className={cn(inputClass, errors.team && errorInputClass)}
-        >
-          <option value="default">Select Team</option>
-          <option value="Blue Team">Blue Team</option>
-          <option value="Red Team">Red Team</option>
-        </select>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="relative">
+            <select
+            {...register("team", { validate: (v) => v !== "default" || "Vector selection required" })}
+            disabled={isSubmitting}
+            className={cn(
+                errors.team ? inputErrorClass : inputDefaultClass,
+                "appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
+            )}
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")` }}
+            >
+            <option value="default">Select Team Vector</option>
+            <option value="Blue Team">Blue Team (Defensive)</option>
+            <option value="Red Team">Red Team (Offensive)</option>
+            <option value="Purple Team">Purple Team (GRC)</option>
+            </select>
+            {errors.team && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.team.message}</p>}
+        </div>
 
-        <select
-          {...register("courses", { validate: (v) => v !== "default" || "Select a course" })}
-          disabled={isSubmitting || watchedTeam === "default"}
-          className={cn(inputClass, errors.courses && errorInputClass)}
-        >
-          <option value="default">Select Course</option>
-          {coursesToShow.map((course) => (
-            <option key={course.title} value={course.title}>{course.title}</option>
-          ))}
-        </select>
+        <div className="relative">
+            <select
+            {...register("courses", { validate: (v) => v !== "default" || "Module selection required" })}
+            disabled={isSubmitting || watchedTeam === "default"}
+            className={cn(
+                errors.courses ? inputErrorClass : inputDefaultClass,
+                "appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
+            )}
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")` }}
+            >
+            <option value="default">Select Course Module</option>
+            {coursesToShow.map((course) => (
+                <option key={course.title} value={course.title}>{course.title}</option>
+            ))}
+            </select>
+            {errors.courses && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.courses.message}</p>}
+        </div>
       </div>
 
       {/* Message */}
-      <textarea
-        {...register("message", { required: "Required" })}
-        placeholder="Your Message"
-        disabled={isSubmitting}
-        rows={4}
-        className={cn(inputClass, errors.message && errorInputClass)}
-      />
+      <div className="relative">
+        <textarea
+            {...register("message", { required: "Payload description required" })}
+            placeholder="Briefly describe your professional background and learning objectives..."
+            disabled={isSubmitting}
+            rows={4}
+            className={cn(errors.message ? inputErrorClass : inputDefaultClass, "resize-none")}
+        />
+        {errors.message && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.message.message}</p>}
+      </div>
 
-      {/* SUBMIT BUTTON (Loading State) */}
-      <div className="flex flex-col items-center">
+      {/* SUBMIT BUTTON */}
+      <div className="flex flex-col items-center pt-4">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isSubmitSuccessful}
           className={cn(
-            "btnPrimary w-full",
-            isSubmitting ? "bg-slate-400 text-white cursor-not-allowed" : "bg-blue-900 text-white hover:bg-blue-800"
+            "group btnPrimary relative w-full flex justify-center items-center gap-2 overflow-hidden",
+            isSubmitting 
+              ? "bg-slate-100 text-slate-400 cursor-wait" 
+              : "bg-slate-900 text-white hover:bg-blue-600 active:scale-[0.98]"
           )}
         >
-          {isSubmitting ? (
-            <>
-              <span className="animate-spin border-2 border-white border-t-transparent rounded-full h-5 w-5"></span>
-              Sending...
-            </>
-          ) : (
-            "Register Now"
-          )}
+          {/* V4 Linear Hover Overlay */}
+          {!isSubmitting && <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />}
+          
+          <span className="relative z-10 flex items-center gap-2">
+            {isSubmitting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                ENCRYPTING_TRANSMISSION...
+              </>
+            ) : isSubmitSuccessful ? (
+              <>
+                <ShieldCheck className="h-4 w-4" />
+                ENROLLMENT_PACKET_SENT
+              </>
+            ) : (
+              <>
+                <Send className="h-4 w-4" />
+                Initialize Registration
+              </>
+            )}
+          </span>
         </button>
 
         {/* SUCCESS MESSAGE */}
         {isSubmitSuccessful && (
-          <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-400 rounded-xl text-center w-full">
-            ✓ Registration successful! We&apos;ll contact you soon.
+          <div className="mt-8 p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-3 w-full animate-in fade-in slide-in-from-top-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <p className="text-[10px] font-mono text-emerald-700 uppercase tracking-tighter leading-tight text-left">
+              Status: 200_OK // Registration_Handshake_Complete <br/>
+              An admissions analyst will verify your details and contact you.
+            </p>
           </div>
         )}
       </div>

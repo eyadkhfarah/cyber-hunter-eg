@@ -45,7 +45,7 @@ export default function SocialLinks() {
           key={index}
           href={item.href}
           target="_blank"
-          className="font-black group pb-2 flex justify-between items-center transition-all ease-in-out duration-300"
+          className="font-black group flex justify-between items-center transition-all ease-in-out duration-300"
         >
           <span className="p-2 text-2xl text-white rounded-full bg-blue-950 group-hover:bg-blue-500 transition-colors duration-500">
             <item.icon />
