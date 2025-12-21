@@ -19,7 +19,7 @@ export default function MobileNav({ open, setOpen }: NavbarProps) {
   // Close menu on route change
   useEffect(() => {
     if (open) setOpen(false);
-  }, [open, pathname, setOpen]);
+  }, [pathname]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
