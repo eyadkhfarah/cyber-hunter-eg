@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
       </header>
 
       {/* --- CONTENT SECTION --- */}
-      <section className="container mx-auto py-20 max-w-7xl">
+      <section className="container mx-auto md:px-0 px-3 py-20 max-w-7xl">
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {sections.map((item, idx) => (
             <div key={idx} className="p-8 rounded-4xl border border-slate-100 bg-white hover:border-blue-200 transition-all duration-300">
