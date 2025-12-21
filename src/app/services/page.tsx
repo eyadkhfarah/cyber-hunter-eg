@@ -95,7 +95,7 @@ export default function ServicesPage() {
       </header>
 
       {/* Services Grid */}
-      <section className="container max-w-7xl mx-auto mb-20">
+      <section className="container max-w-7xl mx-auto md:p-0 px-6 mb-20">
         <div className="grid gap-8 md:grid-cols-2">
           {serviceGroups.map((group, idx) => (
             <div key={idx} className="group relative">

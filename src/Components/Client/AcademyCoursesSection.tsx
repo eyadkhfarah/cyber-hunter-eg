@@ -113,7 +113,7 @@ export const AcademyCoursesSection: React.FC = () => {
                         <IconComponent className="w-7 h-7 text-white" />
                       </div>
                       
-                      <span className={`${colors.text} ${colors.badgeBg} px-3 py-1 rounded-full text-sm font-bold tracking-wide`}>
+                      <span className={`${colors.text} ${colors.badgeBg} px-3 py-1 rounded-full w-fit text-sm font-bold tracking-wide`}>
                         {diploma.badge}
                       </span>
                     </div>
