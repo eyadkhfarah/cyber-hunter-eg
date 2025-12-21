@@ -20,7 +20,7 @@ export default function StepByStep() {
           </p>
         </div>
 
-        <div className="relative flex flex-col items-center">
+        <div className="relative px-5 flex flex-col items-center">
           {/* Vertical Connector Line with Gradient */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-linear-to-b from-blue-500 via-purple-500 to-blue-500 hidden md:block z-0 rounded-full opacity-20"></div>
 
