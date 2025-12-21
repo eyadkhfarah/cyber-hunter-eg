@@ -130,7 +130,7 @@ export default function page() {
 
       {/* --- CTA SECTION --- */}
       <section className="container mx-auto px-6 py-20 mb-20">
-        <div className="max-w-3xl mx-auto p-12 md:p-16 rounded-[3rem] bg-white border border-slate-200 text-center relative">
+        <div className="max-w-3xl mx-auto p-7 md:p-16 rounded-[3rem] bg-white border border-slate-200 text-center relative">
           {/* Decorative Corners */}
           <div className="absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-slate-200" />
           <div className="absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-slate-200" />

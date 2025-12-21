@@ -85,7 +85,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <div className={`group relative p-8 bg-white rounded-4xl border transition-all duration-500 hover:shadow-2xl hover:shadow-${color}-500/10 ${colorMap[color].split(' ').slice(0,2).join(' ')}`}>
-      <div className="flex justify-between items-start mb-6">
+      <div className="md:flex grid gap-4 justify-between items-start mb-6">
         <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${colorMap[color].split(' ').slice(2).join(' ')}`}>
           {focus}
         </span>
@@ -110,14 +110,14 @@ const CourseCard: React.FC<CourseCardProps> = ({
 };
 
 const LearnSection: React.FC<LearnSectionProps> = ({ title, points, colorClass, icon }) => (
-  <div className="mt-12 p-10 bg-slate-200 rounded-[3rem] border border-slate-100 relative overflow-hidden group">
+  <div className="mt-12 lg:p-10 p-6 bg-slate-200 rounded-[3rem] border border-slate-100 relative overflow-hidden group">
     {/* Background Pattern */}
     <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:scale-110 transition-transform duration-700">
       {icon}
     </div>
 
-    <div className="flex items-center gap-4 mb-10">
-      <div className={`p-3 rounded-2xl bg-white shadow-sm border border-slate-200 ${colorClass}`}>
+    <div className="md:flex items-center grid gap-4 mb-10">
+      <div className={`p-3 rounded-2xl w-fit bg-white shadow-sm border border-slate-200 ${colorClass}`}>
         {icon}
       </div>
       <h3 className={`text-xl font-bold text-slate-900 uppercase tracking-tight`}>{title}</h3>
@@ -158,7 +158,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <section className="container mx-auto px-6 py-24 space-y-32">
+      <section className="container mx-auto px-3 py-24 space-y-32">
         
         {/* --- BLUE TEAM --- */}
         <div className="relative lg:px-27 px-6">
@@ -257,7 +257,7 @@ const App: React.FC = () => {
             </h2>
             <Link 
               href="/academy-courses/registration" 
-              className="group relative inline-flex items-center btnPrimary"
+              className="group relative inline-flex whitespace-nowrap items-center btnPrimary"
             >
               Register for a Course
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
