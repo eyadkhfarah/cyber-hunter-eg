@@ -85,7 +85,7 @@ export default function Home() {
             response, and technical training — architected for resilience.
           </p>
 
-          <div className="flex items-center justify-center gap-6">
+          <div className="md:flex grid items-center justify-center gap-6">
             <Link
               href="/contact"
               className="btnPrimary px-10 relative overflow-hidden group"
@@ -108,7 +108,7 @@ export default function Home() {
         id="services"
         className="relative py-24 bg-[#0b1220] border-y border-white/5 m-0 max-w-full"
       >
-        <div className="container mx-auto max-w-7xl">
+        <div className="container mx-auto max-w-7xl md:p-0 px-6">
           <div className="flex items-center justify-between mb-16 border-b border-white/5 pb-8">
             <h2 className="text-4xl md:text-5xl font-bold text-white">
               Critical Risk Metrics
