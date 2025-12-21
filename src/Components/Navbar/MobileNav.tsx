@@ -19,7 +19,7 @@ export default function MobileNav({ open, setOpen }: NavbarProps) {
   // Close menu on route change
   useEffect(() => {
     if (open) setOpen(false);
-  }, [pathname]);
+  }, [open, pathname, setOpen]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -45,20 +45,20 @@ export default function MobileNav({ open, setOpen }: NavbarProps) {
       {/* Slide-out Panel */}
       <nav
         className={cn(
-          "fixed top-0 right-0 z-[60] h-dvh bg-slate-900 w-full sm:w-[400px] border-l border-slate-800 shadow-2xl transition-transform duration-500 ease-in-out flex flex-col",
+          "fixed top-0 right-0 z-60 h-dvh bg-slate-900 w-full sm:w-[400px] border-l border-slate-800 shadow-2xl transition-transform duration-500 ease-in-out flex flex-col",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Header Area */}
         <div className="flex items-center justify-between p-8 border-b border-slate-800/50">
           <div className="flex flex-col">
-            <span className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-[0.3em]">
+            <span className="text-[10px] font-mono text-blue-500 uppercase tracking-[0.3em]">
               System_Menu
             </span>
             <span className="text-white font-black text-xl tracking-tighter">NAVIGATION</span>
           </div>
           <button
-            className="p-3 rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-red-500/20 hover:text-red-400 transition-all duration-300"
+            className="p-3 rounded-xl bg-slate-800 text-slate-400 hover:text-white hover:bg-red-500/20 transition-all duration-300"
             onClick={() => setOpen(false)}
           >
             <X size={24} />

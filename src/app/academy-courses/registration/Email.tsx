@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { AcademyCoursesBlue, AcademyCoursesGRC, AcademyCoursesRed } from "@/lib/Data/AcademyCourses";
 import { cn } from "@/lib/utils";
 import { AcademyFormValues } from "@/types/inputs";
-import { Loader2, ShieldCheck, Cpu, Send } from "lucide-react";
+import { Loader2, ShieldCheck, Send } from "lucide-react";
 
 type FormProps = {
   className?: string;
@@ -86,7 +86,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting}
             className={errors.name ? inputErrorClass : inputDefaultClass}
           />
-          {errors.name && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.name.message}</p>}
+          {errors.name && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.name.message}</p>}
         </div>
         <div className="relative">
           <input
@@ -98,7 +98,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting}
             className={errors.number ? inputErrorClass : inputDefaultClass}
           />
-          {errors.number && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.number.message}</p>}
+          {errors.number && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.number.message}</p>}
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting}
             className={errors.email ? inputErrorClass : inputDefaultClass}
           />
-          {errors.email && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.email.message}</p>}
+          {errors.email && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.email.message}</p>}
         </div>
         <div className="relative">
           <input
@@ -121,7 +121,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting}
             className={errors.governorate ? inputErrorClass : inputDefaultClass}
           />
-          {errors.governorate && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.governorate.message}</p>}
+          {errors.governorate && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.governorate.message}</p>}
         </div>
       </div>
 
@@ -133,7 +133,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting}
             className={cn(
                 errors.team ? inputErrorClass : inputDefaultClass,
-                "appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
+                "appearance-none bg-no-repeat bg-position-[right_1rem_center] bg-size-[1em_1em]"
             )}
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")` }}
             >
@@ -142,7 +142,7 @@ export default function EmailForm({ className }: FormProps) {
             <option value="Red Team">Red Team (Offensive)</option>
             <option value="Purple Team">Purple Team (GRC)</option>
             </select>
-            {errors.team && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.team.message}</p>}
+            {errors.team && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.team.message}</p>}
         </div>
 
         <div className="relative">
@@ -151,7 +151,7 @@ export default function EmailForm({ className }: FormProps) {
             disabled={isSubmitting || watchedTeam === "default"}
             className={cn(
                 errors.courses ? inputErrorClass : inputDefaultClass,
-                "appearance-none bg-no-repeat bg-[right_1rem_center] bg-[length:1em_1em]"
+                "appearance-none bg-no-repeat bg-position-[right_1rem_center] bg-size-[1em_1em]"
             )}
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")` }}
             >
@@ -160,7 +160,7 @@ export default function EmailForm({ className }: FormProps) {
                 <option key={course.title} value={course.title}>{course.title}</option>
             ))}
             </select>
-            {errors.courses && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.courses.message}</p>}
+            {errors.courses && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.courses.message}</p>}
         </div>
       </div>
 
@@ -173,7 +173,7 @@ export default function EmailForm({ className }: FormProps) {
             rows={4}
             className={cn(errors.message ? inputErrorClass : inputDefaultClass, "resize-none")}
         />
-        {errors.message && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase font-bold tracking-tighter">{errors.message.message}</p>}
+        {errors.message && <p className="absolute -bottom-5 left-1 font-mono text-[9px] text-red-500 uppercase tracking-tighter">{errors.message.message}</p>}
       </div>
 
       {/* SUBMIT BUTTON */}
