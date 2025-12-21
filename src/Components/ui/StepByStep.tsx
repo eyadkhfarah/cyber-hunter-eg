@@ -4,7 +4,7 @@ import { Waypoints } from "lucide-react";
 export default function StepByStep() {
   return (
     <div className="max-w-full">
-      <div className="container mx-auto px-5">
+      <div className="container mx-auto max-w-7xl px-5">
         <div className="text-center mb-16">
           {/* Badge */}
           <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100 border border-blue-200 text-blue-600 text-sm font-medium mb-4">
