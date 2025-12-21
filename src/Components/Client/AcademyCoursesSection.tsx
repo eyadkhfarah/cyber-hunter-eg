@@ -132,7 +132,7 @@ export const AcademyCoursesSection: React.FC = () => {
                     <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
                     
                     {/* Info */}
-                    <div className="md:flex grid items-center justify-between">
+                    <div className="md:flex grid gap-4 items-center justify-between">
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                           Duration

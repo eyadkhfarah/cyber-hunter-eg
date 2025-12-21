@@ -105,7 +105,7 @@ export default function MobileNav({ open, setOpen }: NavbarProps) {
         <div className="p-8 border-t border-slate-800/50 space-y-8 bg-slate-900/50">
           <Link 
             href="/contact" 
-            className="group flex items-center justify-center gap-3 w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-all active:scale-95 shadow-lg shadow-blue-900/20"
+            className="group flex items-center justify-center gap-3 w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold uppercase tracking-widest text-sm transition-all active:scale-95 shadow-lg shadow-blue-900/20"
             onClick={() => setOpen(false)}
           >
             <Terminal className="w-4 h-4" />
