@@ -72,7 +72,7 @@ export const AcademyCoursesSection: React.FC = () => {
   return (
     <section
       id="academy"
-      className="m-0 max-w-full px-4 py-20 md:px-24 bg-linear-to-b from-gray-50 to-white"
+      className="m-0 max-w-full px-3 py-20 md:px-24 bg-linear-to-b from-gray-50 to-white"
     >
       <div className="container mx-auto px-6 max-w-full">
         {/* Header */}
@@ -108,7 +108,7 @@ export const AcademyCoursesSection: React.FC = () => {
                   {/* Content */}
                   <div className="relative p-8 space-y-6">
                     {/* Icon and Badge */}
-                    <div className="flex gap-4 items-center">
+                    <div className="md:flex grid gap-4 items-center">
                       <div className={`inline-flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br ${colors.bg} shadow-lg ${colors.shadow} group-hover:scale-110 transition-all duration-300`}>
                         <IconComponent className="w-7 h-7 text-white" />
                       </div>
@@ -132,7 +132,7 @@ export const AcademyCoursesSection: React.FC = () => {
                     <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
                     
                     {/* Info */}
-                    <div className="flex items-center justify-between">
+                    <div className="md:flex grid items-center justify-between">
                       <div>
                         <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                           Duration
