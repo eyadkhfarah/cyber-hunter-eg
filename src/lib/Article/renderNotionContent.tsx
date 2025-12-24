@@ -1,16 +1,32 @@
 import { NotionRenderer } from "@notion-render/client";
 import hljsPlugin from "@notion-render/hljs-plugin";
 import bookmarkPlugin from "@notion-render/bookmark-plugin";
-import embedPlugin from "@/lib/Article/embedPlugin";
+// import embedPlugin from "@/lib/Article/embedPlugin";
 import { notionBlog } from "@/lib/notion";
+import { BlockObjectResponse, PartialBlockObjectResponse } from "@notionhq/client";
 
-export async function renderNotionContent(content: unknown[]) {
+export async function renderNotionContent(
+  content: (BlockObjectResponse | PartialBlockObjectResponse)[] | undefined
+): Promise<string> {
   try {
-    // Check if content exists
     if (!content || !Array.isArray(content) || content.length === 0) {
-      console.error("No content provided to renderNotionContent");
-      return "";
+      console.warn("No content provided to renderNotionContent");
+      return "<p>No content available.</p>";
     }
+
+    const validBlocks = content.filter((block): block is BlockObjectResponse => 
+      block !== null && 
+      typeof block === 'object' && 
+      'type' in block && 
+      'id' in block
+    );
+
+    if (validBlocks.length === 0) {
+      console.warn("No valid blocks found in content");
+      return "<p>No valid content blocks.</p>";
+    }
+
+    console.log(`Rendering ${validBlocks.length} blocks`);
 
     const renderer = new NotionRenderer({
       client: notionBlog,
@@ -18,28 +34,25 @@ export async function renderNotionContent(content: unknown[]) {
     
     renderer.use(hljsPlugin({}));
     renderer.use({ ...bookmarkPlugin(undefined), extensions: [] });
-    renderer.use(embedPlugin as unknown as Parameters<typeof renderer.use>[0]);
+    // embedPlugin removed temporarily
     
-    let html = await renderer.render(...(content as unknown as Parameters<typeof renderer.render>));
+    const html = await renderer.render(...validBlocks);
     
-    // Check if html is valid
     if (!html || typeof html !== 'string') {
       console.error("Renderer did not return valid HTML");
-      return "";
+      return "<p>Error rendering content.</p>";
     }
     
     console.log("HTML rendered successfully, length:", html.length);
     
-    // Replace tweet placeholders with TweetEmbed component
-    // Use a simple regex replace that won't fail
-    html = html.replace(
+    const processedHtml = html.replace(
       /<div data-tweet-id="(\d+)"><\/div>/g,
       '<div class="tweet-embed"><div data-tweet-id="$1"></div></div>'
     );
     
-    return html;
+    return processedHtml;
   } catch (error) {
     console.error("Error rendering Notion content:", error);
-    return "";
+    return "<p>An error occurred while rendering content.</p>";
   }
 }

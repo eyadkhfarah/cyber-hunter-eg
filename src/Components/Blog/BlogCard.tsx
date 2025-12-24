@@ -1,58 +1,44 @@
 import { renderNotionContent } from "@/lib/Article/renderNotionContent";
 import { notionBlog } from "@/lib/notion";
 import { BlogPost } from "@/types/notionBlog";
-import { Clock } from "lucide-react";
+import { Clock, ArrowUpRight, Shield } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import readingTime from "reading-time";
 
-// Assuming you have a utility function like 'cn' for combining classes,
-// if not, you'd define a helper or use template literals.
-
-// --- Type Definitions ---
-
 type BlogCardProps = {
   articles?: BlogPost;
-  index?: number;
   isLoading?: boolean;
 };
 
-// --- Helper Components ---
-
 /**
- * Renders a modern skeletal loading card.
+ * Modern skeletal loading card with cyber-styling.
  */
 export function BlogCardLoader() {
   return (
-    <div className="group block w-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 animate-pulse">
-      {/* Skeleton Image Placeholder (50% height or fixed aspect ratio) */}
-      <div className="aspect-video w-full bg-gray-200"></div>
-
-      <div className="p-5 grid gap-3">
-        {/* Category Skeleton */}
-        <div className="h-4 w-1/4 bg-gray-200 rounded-full"></div>
-
-        {/* Title Skeleton */}
-        <div className="h-6 w-3/4 bg-gray-300 rounded-lg"></div>
-
-        {/* Description Skeleton Lines */}
-        <div className="space-y-2 mt-2">
-          <div className="h-4 bg-gray-200 rounded"></div>
-          <div className="h-4 w-5/6 bg-gray-200 rounded"></div>
+    <div className="w-full bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 animate-pulse">
+      <div className="aspect-16/10 w-full bg-slate-200 relative">
+        {/* Subtle grid overlay for the loader */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `radial-gradient(#000 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
+      </div>
+      <div className="p-6 space-y-4">
+        <div className="h-4 w-24 bg-slate-200 rounded-full"></div>
+        <div className="space-y-2">
+          <div className="h-6 w-full bg-slate-300 rounded-lg"></div>
+          <div className="h-6 w-2/3 bg-slate-300 rounded-lg"></div>
         </div>
+        <div className="h-16 w-full bg-slate-200 rounded-xl"></div>
       </div>
     </div>
   );
 }
 
-// --- Main Component ---
-
 export default async function BlogCard({ articles, isLoading }: BlogCardProps) {
-  // If loading, render the dedicated loader component
   if (isLoading || !articles) {
     return <BlogCardLoader />;
   }
 
+  // Fetch blocks to calculate reading time
   const blocks = await notionBlog.blocks.children.list({
     block_id: articles.id,
   });
@@ -60,75 +46,68 @@ export default async function BlogCard({ articles, isLoading }: BlogCardProps) {
   const plainText = await renderNotionContent(blocks.results);
   const { minutes } = readingTime(plainText);
 
-  // ✅ Extract Notion data with fallbacks
-  const title =
-    articles.properties.Name?.title?.[0]?.plain_text?.trim() || "Untitled Post";
-  const description =
-    articles.properties.Subtitle?.rich_text?.[0]?.plain_text?.trim() ||
-    "Read this article to learn more.";
-  const category =
-    articles.properties.Category?.select?.name || "Uncategorized";
-  // const date = articles.properties.Publication?.date?.start
-  //   ? new Date(articles.properties.Publication.date.start).toLocaleDateString(
-  //       "ar-EG",
-  //       {
-  //         year: "numeric",
-  //         month: "long",
-  //         day: "numeric",
-  //       }
-  //     )
-  //   : "Unknown Date";
+  // Extract Notion properties safely
+  const title = articles.properties.Name?.title?.[0]?.plain_text || "Classified Report";
+  const description = articles.properties.Subtitle?.rich_text?.[0]?.plain_text || "Accessing intelligence data...";
+  const category = articles.properties.Category?.select?.name || "Intelligence";
+  const slug = articles.properties.Slug?.rich_text?.[0]?.plain_text || articles.id;
 
-  const imageUrl = articles.properties.Thumbnail?.files?.[0]?.name
-    ? articles.properties.Thumbnail.files[0].name
-    : "/default-thumbnail.jpg";
+  // Handle Notion's nested file/external structure
+  const thumbnail = articles.properties.Thumbnail?.files?.[0];
+  const imageUrl = thumbnail?.type === 'external' ? thumbnail.external.url : thumbnail?.file?.url || "/Images/placeholder-report.webp";
 
   return (
     <Link
-      href={`/blog/${
-        articles.properties.Slug?.rich_text?.[0]?.plain_text || 0
-      }`}
-      className="group block w-full bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1 border border-gray-100"
+      href={`/blog/${slug}`}
+      className="group relative block w-full bg-white rounded-4xl border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 overflow-hidden transform hover:-translate-y-2"
     >
-      {/* 🖼️ Image Placeholder/Actual Image */}
-      <div className="aspect-video w-full bg-gray-200 overflow-hidden">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={title}
-            width={500}
-            height={250}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          // Default placeholder if no image URL is provided
-          <div className="flex items-center justify-center h-full text-gray-400">
-            [Image of a digital blog post icon]
+      {/* 🖼️ Cover Image with Overlay */}
+      <div className="relative aspect-16/10 w-full bg-slate-100 overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-700 scale-100 group-hover:scale-110 blur-0"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        
+        {/* Modern glassmorphism badge */}
+        <div className="absolute top-4 left-4 z-10">
+          <div className="px-3 py-1.5 rounded-xl bg-slate-900/60 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-2">
+            <Shield className="w-3 h-3 text-blue-400" />
+            {category}
           </div>
-        )}
+        </div>
+
+        {/* Floating Arrow on Hover */}
+        <div className="absolute bottom-4 right-4 z-10 translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
+          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-xl shadow-blue-600/40">
+            <ArrowUpRight size={20} />
+          </div>
+        </div>
       </div>
 
       {/* 📝 Content Area */}
-      <div className="p-5 grid gap-3">
-        {/* Category Tag */}
-        <div className="flex justify-between items-center">
-          <span className="text-xs w-fit font-bold uppercase text-blue-600 tracking-wider bg-blue-50 py-1 px-3 rounded-full self-start">
-            {category}
-          </span>
-
-          <span className="text-slate-500 gap-2 flex text-sm items-center">
-            <Clock className="w-4 h-4" />
-            { minutes } min
-          </span>
+      <div className="p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[10px] uppercase tracking-wider">
+            <Clock className="w-3 h-3 text-blue-500" />
+            {Math.ceil(minutes)} MIN READ
+          </div>
+          <div className="h-px flex-1 bg-slate-50" />
         </div>
-        {/* Title */}
-        <h2 className="text-xl font-bold text-gray-900 line-clamp-2 group-hover:text-blue-700 transition duration-300">
+
+        <h2 className="text-xl font-bold text-slate-900 mb-3 leading-tight tracking-tight group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
           {title}
         </h2>
 
-        {/* Description */}
-        <p className="line-clamp-3 text-gray-600 text-sm">{description}</p>
+        <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 font-medium">
+          {description}
+        </p>
       </div>
+
+      {/* Subtle border bottom accent */}
+      <div className="absolute bottom-0 left-0 h-1 w-0 bg-blue-600 transition-all duration-500 group-hover:w-full" />
     </Link>
   );
 }

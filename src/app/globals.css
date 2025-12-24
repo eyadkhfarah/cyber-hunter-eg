@@ -67,13 +67,6 @@ body {
   font-style: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 /* Hero animations */
 @keyframes ch-hero-fade-up {
   from { opacity: 0; transform: translateY(12px); }

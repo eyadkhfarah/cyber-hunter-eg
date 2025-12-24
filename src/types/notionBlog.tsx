@@ -63,7 +63,14 @@ export type NotionBlogPage = {
     };
     Publication: { date: { start: string } };
     Thumbnail: {
+      external: {
+        url: string;
+      }
       files: Array<{
+        external: {
+          url: string;
+        };
+        type: string;
         file: {
           url: string;
         };
@@ -86,6 +93,14 @@ export type NotionBlogPage = {
   };
 };
 
+// Define the specific shape of a Notion file object
+export interface NotionFile {
+  external: { url: string };
+  file: { url: string };
+  type: string;
+  name: string;
+}
+
 export interface BlogPost {
   last_edited_time: string;
   id: string;
@@ -106,9 +121,7 @@ export interface BlogPost {
       }>;
     };
     Thumbnail: {
-      files: {
-        name: string;
-      }[];
+      files: NotionFile[]; // <--- Use the new type here
     };
     Category: {
       select: {
@@ -121,9 +134,9 @@ export interface BlogPost {
       };
     };
     Author: {
-      select: {
-        name: string;
-      };
+      rich_text: Array<{
+        plain_text: string;
+      }>;
     };
     Slug: {
       rich_text: {

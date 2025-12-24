@@ -2,17 +2,12 @@
 
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { ShieldCheck, Loader2, CheckCircle2 } from "lucide-react";
 
-// Define the shape of the form data
 type FormValues = {
   email: string;
 };
 
-/**
- * Subscription Email Form Component
- */
-// FIX: Changed from named export (export const) to default export (export default function) 
-// to resolve the "Element type is invalid" error in the React environment.
 export default function EmailSubscription() {
   const {
     register,
@@ -25,84 +20,89 @@ export default function EmailSubscription() {
     },
   });
 
-  // 📝 Improvement: Reset form fields immediately on successful submission
   useEffect(() => {
     if (isSubmitSuccessful) {
-      // Optional: Add a short delay before resetting to allow the success message to be seen
-      const timer = setTimeout(() => reset(), 3000); 
+      const timer = setTimeout(() => reset(), 4000);
       return () => clearTimeout(timer);
     }
   }, [isSubmitSuccessful, reset]);
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Submitting email:", data.email.trim());
-
-    // --- Mock API Submission ---
-    // Replace with actual API call to your subscription service (e.g., fetch('/api/subscribe', { ... }))
-    try {
-      // Simulate API latency
-      await new Promise(resolve => setTimeout(resolve, 1500)); 
-      
-      // Assume success for mock submission
-      console.log("Subscription successful for:", data.email);
-
-      // If you had a real API, you would check response.ok here:
-      // const response = await fetch('/api/subscribe', { ... });
-      // if (!response.ok) throw new Error('Subscription failed');
-
-    } catch (error) {
-      console.error("Subscription failed:", error);
-      // Optional: Handle error state visibility here
-    }
+    // Simulate API latency
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log("Subscription successful for:", data.email);
   };
 
-  const inputErrorClass = errors.email ? "border-red-500 ring-red-500" : "border-transparent focus:ring-blue-200";
-
   return (
-    <div className="p-6 bg-blue-600 rounded-xl text-white shadow-xl">
-      <h3 className="text-xl font-bold mb-2">Stay Ahead of Threats</h3>
-      <p className="text-sm mb-4 opacity-90">Subscribe for the latest security research and news.</p>
-      
-      {isSubmitSuccessful ? (
-        <div className="text-center py-4 rounded-lg">
-            <p className="font-bold text-lg">Subscribed!</p>
-            <p className="text-sm">Thank you for joining our newsletter.</p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-3" noValidate>
-          <input 
-            id="email-subscribe"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Enter a valid email address",
-              },
-            })}
-            type="email" 
-            placeholder="Your professional email" 
-            aria-invalid={errors.email ? "true" : "false"}
-            aria-describedby={errors.email ? "email-subscribe-error" : undefined}
-            disabled={isSubmitting}
-            className={`p-3 rounded-lg text-gray-800 focus:ring-2 focus:outline-none placeholder-gray-500 transition ${inputErrorClass}`}
-          />
-          
-          {errors.email && (
-            <p id="email-subscribe-error" role="alert" className="text-sm text-red-200 -mt-2">
-              {errors.email.message}
-            </p>
-          )}
+    <div className="p-8 bg-slate-900 rounded-4xl text-white shadow-2xl relative overflow-hidden group">
+      {/* Decorative background element */}
+      <div className="absolute -top-12 -right-12 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-colors duration-500" />
 
-          <button 
-            type="submit" 
-            disabled={isSubmitting}
-            // Using standard Tailwind classes for a strong button look
-            className="w-full btnPrimary from-blue-900 to-indigo-600 hover:to-blue-900 disabled:bg-blue-900/70 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "Subscribing..." : "Subscribe Securely"}
-          </button>
-        </form>
-      )}
+      <div className="relative z-10">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-2 bg-blue-600/20 rounded-lg">
+            <ShieldCheck className="w-5 h-5 text-blue-400" />
+          </div>
+          <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-blue-100">
+            Intel_Alerts
+          </h3>
+        </div>
+
+        <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+          Get mission-critical threat reports and regional security updates delivered to your endpoint.
+        </p>
+
+        {isSubmitSuccessful ? (
+          <div className="flex flex-col items-center py-4 animate-in fade-in zoom-in duration-500 text-center">
+            <CheckCircle2 className="w-10 h-10 text-emerald-500 mb-3" />
+            <p className="font-bold text-emerald-400 text-sm tracking-widest uppercase">
+              Connection_Established
+            </p>
+            <p className="text-[10px] text-slate-500 mt-1 uppercase">Check your inbox for confirmation</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            <div className="space-y-1">
+              <input
+                {...register("email", {
+                  required: "Endpoint email required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Invalid email format",
+                  },
+                })}
+                type="email"
+                placeholder="analyst@agency.com"
+                disabled={isSubmitting}
+                className={`w-full bg-slate-800/50 border ${
+                  errors.email ? "border-red-500/50" : "border-slate-700"
+                } rounded-xl p-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all`}
+              />
+              
+              {errors.email && (
+                <p role="alert" className="text-[10px] font-mono text-red-400 uppercase tracking-tighter px-1">
+                  &gt; {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold py-3 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 uppercase text-[10px] tracking-[0.2em]"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Encrypting...
+                </>
+              ) : (
+                "Join_Network"
+              )}
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
-};
+}

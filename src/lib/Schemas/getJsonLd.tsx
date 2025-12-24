@@ -1,7 +1,25 @@
 import { CyberhunterOrganization } from "@/lib/Schemas/CHJsonLd";
-import { BlogPost } from "@/types/notionBlog";
+import { BlogPost, NotionFile } from "@/types/notionBlog";
+
+const getNotionUrl = (files: NotionFile[]): string => {
+  const file = files?.[0];
+  if (!file) return "";
+
+  // Logic to handle both external links and Notion-hosted files
+  if (file.type === "external" && file.external) {
+    return file.external.url;
+  }
+  
+  if (file.type === "file" && file.file) {
+    return file.file.url;
+  }
+
+  return "";
+};
 
 export function getJsonLdArticle(post: BlogPost, siteUrl: string, DateJson: string) {
+  const imageUrl = getNotionUrl(post.properties.Thumbnail.files);
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -9,12 +27,12 @@ export function getJsonLdArticle(post: BlogPost, siteUrl: string, DateJson: stri
     id: siteUrl + "/post/" + post.properties.Slug.rich_text[0].plain_text,
     url: siteUrl + "/post/" + post.properties.Slug.rich_text[0].plain_text,
     datePublished: DateJson,
-    thumbnailUrl: post.properties.Thumbnail.files[0].name,
+    thumbnailUrl: imageUrl,
     articleSection: post.properties.Category.select.name,
     image: {
       "@type": "ImageObject",
-      url: post.properties.Thumbnail.files[0].name,
-      contentUrl: post.properties.Thumbnail.files[0].name,
+      url: imageUrl,
+      contentUrl: imageUrl,
       width: 1920,
       height: 960,
       caption: post.properties.Name.title[0].plain_text,
@@ -26,8 +44,8 @@ export function getJsonLdArticle(post: BlogPost, siteUrl: string, DateJson: stri
     publisher: CyberhunterOrganization,
     author: {
       "@type": "Person",
-      name: post.properties.Author.select.name,
-      url: siteUrl + "/author/" + post.properties.Author.select.name,
+      name: post.properties.Author.rich_text[0].plain_text,
+      url: siteUrl + "/author/" + post.properties.Author.rich_text[0].plain_text,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -37,7 +55,7 @@ export function getJsonLdArticle(post: BlogPost, siteUrl: string, DateJson: stri
       inLanguage: "ar",
       primaryImageOfPage: {
         "@type": "ImageObject",
-        url: post.properties.Thumbnail.files[0].name,
+        url: imageUrl,
       },
       breadcrumb: {
         "@type": "BreadcrumbList",
@@ -60,17 +78,19 @@ export function getJsonLdArticle(post: BlogPost, siteUrl: string, DateJson: stri
 }
 
 export function getJsonLdImage(post: BlogPost, siteUrl: string) {
+  const imageUrl = getNotionUrl(post.properties.Thumbnail.files);
+
   return {
     "@context": "https://schema.org",
     "@type": "ImageObject",
-    contentUrl: post.properties.Thumbnail.files[0].name,
-    creditText: "وعى - مصر",
+    contentUrl: imageUrl,
+    creditText: "Cyber Hunter",
     license: siteUrl + "/terms",
     acquireLicensePage: siteUrl + "/terms",
     creator: {
       "@type": "Person",
-      name: "وعى - مصر",
+      name: "Cyber Hunter",
     },
-    copyrightNotice: "وعى - مصر",
+    copyrightNotice: "Cyber Hunter",
   };
 }
