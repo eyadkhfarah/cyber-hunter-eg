@@ -1,7 +1,7 @@
 // import Link from "next/link";
 
-interface Tag {
-  name: string[];
+export interface Tag {
+  name: string;
 }
 
 export default function ArticleTags({ tags }: { tags: Tag[]; variant?: "sidebar" | "footer" }) {

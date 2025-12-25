@@ -25,6 +25,12 @@ export const SocialShare = ({ title, url }: ShareButtonsProps) => {
 
   const socialLinks = [
     {
+      name: "Facebook",
+      icon: RiFacebookFill,
+      Component: FacebookShareButton,
+      hoverClass: "hover:bg-[#1877f2] hover:text-white",
+    },
+    {
       name: "X",
       icon: RiTwitterXLine,
       Component: TwitterShareButton,
@@ -35,12 +41,6 @@ export const SocialShare = ({ title, url }: ShareButtonsProps) => {
       icon: RiLinkedinFill,
       Component: LinkedinShareButton,
       hoverClass: "hover:bg-[#0077b5] hover:text-white",
-    },
-    {
-      name: "Facebook",
-      icon: RiFacebookFill,
-      Component: FacebookShareButton,
-      hoverClass: "hover:bg-[#1877f2] hover:text-white",
     },
   ];
 
@@ -73,7 +73,7 @@ export const SocialShare = ({ title, url }: ShareButtonsProps) => {
       <button
         onClick={handleCopyLink}
         className={cn(
-          "relative flex items-center justify-center w-11 h-11 text-xl transition-all duration-300 rounded-xl border shadow-sm",
+          "relative flex items-center cursor-pointer justify-center w-11 h-11 text-xl transition-all duration-300 rounded-xl border shadow-sm",
           copied
             ? "bg-emerald-500 border-emerald-500 text-white"
             : "bg-slate-50 border-slate-100 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600"
