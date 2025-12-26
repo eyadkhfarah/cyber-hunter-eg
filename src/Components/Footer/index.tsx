@@ -156,15 +156,6 @@ export default function Footer() {
               © {new Date().getFullYear()} Cyber Hunter. Protecting digital
               frontiers.
             </p>
-            <p className="flex items-center gap-1">
-              Made with precision by{" "}
-              <Link
-                href={"https://designs-by-eyad.vercel.app/"}
-                className="text-slate-900 font-bold hover:text-blue-600 transition-colors"
-              >
-                Designs by Eyad
-              </Link>
-            </p>
           </div>
         </div>
       </footer>
